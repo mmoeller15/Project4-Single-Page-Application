@@ -3,22 +3,23 @@
   "version": "1.0.0",
   "description": "RESTful Web Server and Single Page Application",
   "author": {
-    "name": "",
-    "email": ""
+    "name": "Maddie Moeller",
+    "email": "moel6746@stthomas.edu"
   },
   "contributors": [
     {
-      "name": "",
-      "email": ""
+      "name": "Alina Kanayinkal",
+      "email": "kana7985@stthomas.edu"
     },
     {
-      "name": "",
-      "email": ""
+      "name": "Ivan Jimenez",
+      "email": "jime3462@stthomas.edu"
     }
   ],
+  "main": "index.html",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/mmoeller15/Project4-Single-Page-Application"
   },
   "scripts": {
     "dev": "vite",
