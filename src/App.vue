@@ -6,8 +6,8 @@ export default {
         return {
             view: 'map',
             codes: [],
-            neighborhoods: [],
-            incidents: [],
+            neighborhoods: [], 
+            incidents: [], 
             leaflet: {
                 map: null,
                 center: {
@@ -54,7 +54,7 @@ export default {
         viewAbout(event) {
             this.view = 'about';
         },
-
+        
         getJSON(url) {
             return new Promise((resolve, reject) => {
                 $.ajax({
@@ -108,8 +108,32 @@ export default {
         }).catch((error) => {
             console.log('Error:', error);
         });
-    }
-}
+
+
+
+        this.getJSON('http://localhost:8005/codes').then((data) => {
+            this.codes = data;
+        }).catch((error) => {
+            console.log('Error:', error);
+        })
+
+        this.getJSON('http://localhost:8005/neighborhoods').then((data) => {            
+            this.neighborhoods = data;
+        }).catch((error) => {
+            console.log('Error:', error);
+        })
+
+        this.getJSON('http://localhost:8005/incidents').then((data) => {
+            this.incidents = data;
+        }).catch((error) => {
+            console.log('Error:', error);
+        })
+
+    },
+
+   
+       
+} 
 </script>
 
 <template>
@@ -125,6 +149,21 @@ export default {
             <div class="grid-x grid-padding-x">
                 <div id="leafletmap" class="cell auto"></div>
             </div>
+        </div>
+    </div>
+     <div class="grid-container">
+        <div class="grid-x grid-padding-x">
+            <table>
+                <thead>
+        <tr><th>Neighborhood</th><th>Incident</th></tr>
+        </thead>
+        <tbody>
+            <tr v-for="(item, index) in codes, incidents" :class="(index % 2 === 0) ? 'even' : 'odd'">
+                <td>{{ item.type }}</td>
+                <!-- <td>{{ item.codes.type }}</td> -->
+                </tr>
+        </tbody>
+            </table>
         </div>
     </div>
     <div v-if="view === 'new_incident'">
@@ -163,5 +202,22 @@ export default {
     border: solid 1px white;
     text-align: center;
     cursor: pointer;
+
+    .even {
+    width: 40rem;
+    margin: 0;
+    background-color: rgb(162, 206, 235);
+}
+
+.odd {
+    width: 40rem;
+    margin: 0;
+    background-color: rgb(241, 241, 241);
+}
+
+th, td {
+    border: solid, 1px, black;
+}
+
 }
 </style>
