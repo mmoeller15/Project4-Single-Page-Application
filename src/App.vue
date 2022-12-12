@@ -154,9 +154,9 @@ export default {
         <tbody>
             <tr v-for="(itemIncidents, index) in incidents" :class="(index % 2 === 0) ? 'even' : 'odd'">
                 <td>{{ index + 1 }}</td>
-                <td>{{ itemIncidents.neighborhood_number }}</td>
-                <td>{{ itemIncidents.code }}</td>
-                <td>{{ itemIncidents }}</td>
+                <td>{{ itemIncidents.neighborhood_number }}</td> 
+                <!-- <td>{{ itemIncidents.code }}</td> method to get code num -->
+                <td>{{ neighborhoods[neighborhood_number - 1] }}</td>
 
            
                 <!-- <td v-for="(itemCodes) in codes"><ul><li v-if="(itemCodes.code == itemIncidents.code)">{{ itemCodes.type }}</li></ul></td> -->
@@ -209,12 +209,13 @@ export default {
     text-align: center;
     cursor: pointer;
 
-    .even {
+    
+}
+.even {
     width: 40rem;
     margin: 0;
     background-color: rgb(162, 206, 235);
 }
-
 .odd {
     width: 40rem;
     margin: 0;
@@ -225,5 +226,5 @@ th, td {
     border: solid, 1px, black;
 }
 
-}
+
 </style>
