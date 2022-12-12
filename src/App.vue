@@ -110,7 +110,6 @@ export default {
         });
 
 
-
         this.getJSON('http://localhost:8005/codes').then((data) => {
             this.codes = data;
         }).catch((error) => {
@@ -148,22 +147,29 @@ export default {
         <div class="grid-container">
             <div class="grid-x grid-padding-x">
                 <div id="leafletmap" class="cell auto"></div>
+                <table>
+                <thead>
+        <tr><th>#</th><th>Neighborhood</th><th>Incident</th></tr>
+        </thead>
+        <tbody>
+            <tr v-for="(itemIncidents, index) in incidents" :class="(index % 2 === 0) ? 'even' : 'odd'">
+                <td>{{ index + 1 }}</td>
+                <td>{{ itemIncidents.neighborhood_number }}</td>
+                <td>{{ itemIncidents.code }}</td>
+                <td>{{ itemIncidents }}</td>
+
+           
+                <!-- <td v-for="(itemCodes) in codes"><ul><li v-if="(itemCodes.code == itemIncidents.code)">{{ itemCodes.type }}</li></ul></td> -->
+                <!-- <td>{{ item.codes.type }}</td> -->
+                </tr>
+        </tbody>
+            </table>
             </div>
         </div>
     </div>
      <div class="grid-container">
         <div class="grid-x grid-padding-x">
-            <table>
-                <thead>
-        <tr><th>Neighborhood</th><th>Incident</th></tr>
-        </thead>
-        <tbody>
-            <tr v-for="(item, index) in codes, incidents" :class="(index % 2 === 0) ? 'even' : 'odd'">
-                <td>{{ item.type }}</td>
-                <!-- <td>{{ item.codes.type }}</td> -->
-                </tr>
-        </tbody>
-            </table>
+            
         </div>
     </div>
     <div v-if="view === 'new_incident'">
