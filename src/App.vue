@@ -86,9 +86,18 @@ export default {
                     }
                 });
             });
+        },
+
+        getIncidentType(code) {
+             let i = 0;
+             while (code != this.codes[i].code) {
+                i++;
+            }
+            return this.codes[i].type;
         }
     },
     mounted() {
+
         this.leaflet.map = L.map('leafletmap').setView([this.leaflet.center.lat, this.leaflet.center.lng], this.leaflet.zoom);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -154,9 +163,9 @@ export default {
         <tbody>
             <tr v-for="(itemIncidents, index) in incidents" :class="(index % 2 === 0) ? 'even' : 'odd'">
                 <td>{{ index + 1 }}</td>
-                <td>{{ itemIncidents.neighborhood_number }}</td> 
-                <!-- <td>{{ itemIncidents.code }}</td> method to get code num -->
-                <td>{{ neighborhoods[neighborhood_number - 1] }}</td>
+                <td>{{ neighborhoods[itemIncidents.neighborhood_number - 1].name }}</td>
+                <td>{{ getIncidentType(itemIncidents.code) }}</td> <!-- method  to get code num -->
+                
 
            
                 <!-- <td v-for="(itemCodes) in codes"><ul><li v-if="(itemCodes.code == itemIncidents.code)">{{ itemCodes.type }}</li></ul></td> -->
