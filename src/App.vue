@@ -106,6 +106,27 @@ export default {
         }).addTo(this.leaflet.map);
         this.leaflet.map.setMaxBounds([[44.883658, -93.217977], [45.008206, -92.993787]]);
 
+
+         for(var i = 0; i < this.leaflet.neighborhood_markers.length; i++) {
+            L.marker([this.leaflet.neighborhood_markers[i].location[0], this.leaflet.neighborhood_markers[i].location[1]])
+                .bindPopup(this.leaflet.neighborhood_markers[i].location[0])
+                .addTo(this.leaflet.map);
+        } 
+
+        
+
+
+        L.marker([44.942068, -93.020521]).addTo(this.leaflet.map);
+        L.popup()
+            .setLatLng([44.942068, -93.020521])
+            .setContent("I am a standalone popup.")
+            .openOn(this.leaflet.map);
+
+
+
+
+
+
         let district_boundary = new L.geoJson();
         district_boundary.addTo(this.leaflet.map);
 
@@ -158,18 +179,17 @@ export default {
                 <div id="leafletmap" class="cell auto"></div>
                 <table>
                 <thead>
-        <tr><th>#</th><th>Neighborhood</th><th>Incident</th></tr>
+        <tr><th>#</th><th>Case Number</th><th>Date</th><th>Time</th><th>Neighborhood</th><th>Incident</th><th>Block</th></tr>
         </thead>
         <tbody>
             <tr v-for="(itemIncidents, index) in incidents" :class="(index % 2 === 0) ? 'even' : 'odd'">
                 <td>{{ index + 1 }}</td>
+                <td>{{ itemIncidents.case_number }}</td>
+                <td>{{ itemIncidents.date }}</td>
+                <td>{{ itemIncidents.time }}</td>
                 <td>{{ neighborhoods[itemIncidents.neighborhood_number - 1].name }}</td>
-                <td>{{ getIncidentType(itemIncidents.code) }}</td> <!-- method  to get code num -->
-                
-
-           
-                <!-- <td v-for="(itemCodes) in codes"><ul><li v-if="(itemCodes.code == itemIncidents.code)">{{ itemCodes.type }}</li></ul></td> -->
-                <!-- <td>{{ item.codes.type }}</td> -->
+                <td>{{ getIncidentType(itemIncidents.code) }}</td>
+                <td>{{ itemIncidents.block }}</td>
                 </tr>
         </tbody>
             </table>
