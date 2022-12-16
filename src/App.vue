@@ -208,6 +208,51 @@ export default {
         <div class="grid-container">
             <div class="grid-x grid-padding-x">
                 <h1 class="cell auto">New Incident Form</h1>
+                <div class="cell small-12 large-12">
+                    <form id="form" method="PUT" action="/new-incident">
+                        <table>
+                            <tr>
+                                <td>Case Number:</td> 
+                                <td><input id="case_number" type="text" placeholder="case number" name="case_number" required></td>
+                            </tr>
+                            <tr>
+                                <td>Date:</td>
+                                <td><input id="date" type="date" placeholder="" name="date" required></td>
+                            </tr>
+                            <tr>
+                                <td>Time:</td>
+                                <td><input id="time" type="time" placeholder="" name="time" required></td>
+                            </tr>
+                            <tr>
+                                <td>Code:</td>
+                                <td><input id="code" type="text" placeholder="code" name="code" required></td>
+                            </tr>
+                            <tr>
+                                <td>Incident:</td>
+                                <td><input id="incident" type="text" placeholder="incident" name="incident" required></td>
+                            </tr>
+                            <tr>
+                                <td>Police Grid:</td>
+                                <td><input id="police_grid" type="text" placeholder="police grid" name="police_grid" required></td>
+                            </tr>
+                            <tr v-for="(item, index) in neighborhoods">
+                                <td>Neighborhood:</td>
+                                <td>
+                                    <select>
+                                        <option>{{item.name}}</option>
+                                    </select>
+                                </td>
+                                <!-- <td id="neighbothood_number">{{item.id}}</td> -->
+                            </tr>
+                            <tr>
+                                <td>Block:</td>
+                                <td><input id="block" type="text" placeholder="block" name="block" required></td>
+                            </tr>
+                            
+                        </table>
+                        <button id="submit" type="button" value="Submit" onclick="uploadJSON">Submit</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
