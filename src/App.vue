@@ -7,7 +7,17 @@ export default {
             view: 'map',
             codes: [],
             neighborhoods: [], 
-            incidents: [], 
+            incidents: [],
+            new_incident:{
+                case_number: null,
+                date: null,
+                time: null,
+                code: null,
+                incident: null,
+                police_grid: null,
+                neighborhood_number: null,
+                block: null
+            }, 
             leaflet: {
                 map: null,
                 center: {
@@ -94,6 +104,16 @@ export default {
                 i++;
             }
             return this.codes[i].type;
+        },
+
+        newIncident(event){
+            console.log(event);
+            let url = "http://localhost:8005/new-incident";
+            this.uploadJSON('PUT', url, this.new_incident).then((data) => {
+                console.log(data);
+            }).catch((error) => {
+                console.log(error);
+            })
         }
     },
     mounted() {
@@ -114,7 +134,7 @@ export default {
             
         }
 
-
+        
 
 
         let district_boundary = new L.geoJson();
@@ -161,8 +181,6 @@ export default {
         })
 
     },
-
-   
        
 } 
 </script>
@@ -208,8 +226,48 @@ export default {
         <div class="grid-container">
             <div class="grid-x grid-padding-x">
                 <h1 class="cell auto">New Incident Form</h1>
+            </div>    
                 <div class="cell small-12 large-12">
                     <form id="form" method="PUT" action="/new-incident">
+                        <span>Case Number:</span><br/>
+                        <input id="case_number" type="text" placeholder="Example: 12345678" v-model="new_incident.case_number">
+                        <label for="case_number"></label>
+                        <br/>
+
+                        <span>Date:</span><br/>
+                        <input id="date" type="text" placeholder="Example: 2019-04-26" v-model="new_incident.date"/>
+                        <label for="date"></label>
+                        <br/>
+                        
+                        <span>Time</span><br/>
+                        <input id="time" type="text" placeholder="Example: 19:15:00" v-model="new_incident.time"/>
+                        <br/>
+                        <label for="time"></label>
+
+                        <span>Code</span><br/>
+                        <input id="code" type="text" placeholder="Example: 600" v-model="new_incident.code"/>
+                        <br/>
+
+                        <span>Incident</span><br/>
+                        <input id="incident" type="text" placeholder="Example: Theft" v-model="new_incident.incident"/>
+                        <br/>
+
+                        <span>Police Grid</span><br/>
+                        <input id="police_grid" type="text" placeholder="Example: 49" v-model="new_incident.police_grid"/>
+                        <br/>
+
+                        <span>Neighborhood Number</span><br/>
+                        <input id="neighborhood_number" type="text" placeholder="Example: 1" v-model="new_incident.neighborhood_number"/>
+                        <br/>
+
+                        <span>Block</span><br/>
+                        <input id="block" type="text" placeholder="Example: 212 OLD HUDSON RD" v-model="new_incident.block"/>
+                        <br/>
+                        <span> New incident has: {{ new_incident }}</span>
+
+                        <button id="lookup" class="cell small-3 button" type="button" @click="newIncident">Submit</button>
+
+                    <!--
                         <table>
                             <tr>
                                 <td>Case Number:</td> 
@@ -241,7 +299,7 @@ export default {
                                         <option v-for="(item, index) in neighborhoods"> {{item.name}} </option>
                                     </select>
                             </tr>
-                            <!-- <tr v-for="(item, index) in neighborhoods">
+                            <!- <tr v-for="(item, index) in neighborhoods">
                                 <td>Neighborhood:</td>
                                 <td>
                                     <select>
@@ -249,19 +307,75 @@ export default {
                                     </select>
                                 </td>
                                 <!- <td id="neighbothood_number">{{item.id}}</td> --
-                            </tr> -->
+                            </tr> --
                             <tr>
                                 <td>Block:</td>
                                 <td><input id="block" type="text" placeholder="block" name="block" required></td>
                             </tr>
                             
                         </table>
-                        <button id="submit" type="button" value="Submit" onclick="uploadJSON">Submit</button>
+                        <button id="submit" type="button" value="Submit" onclick="uploadJSON()">Submit</button> -->
                     </form>
                 </div>
-            </div>
+            
         </div>
     </div>
+
+    <!--
+
+        <div v-if="view === 'new_incident'">
+            <div class="grid-container">
+                <div class="grid-x grid-padding-x">
+                    <h1 class="cell auto">New Incident Form</h1>
+                </div>
+            </div>
+
+            <div class="grid-container">
+                <div class="grid-x grid-padding-x">
+                    <div>
+                        <span>Case Number</span><br>
+                        <input id="case_number" type="text" placeholder="Example: 11111111" v-model="new_incident.case_number"><label for="case_number"></label>
+                        <br>
+
+                        <span>Date</span><br/>
+                        <input id="date" type="text" placeholder="Example: 2022-05-31" v-model="new_incident.date"/>
+                        <br/>
+                        
+                        <label for="date"></label>
+                        <span>Time</span><br/>
+                        <input id="time" type="text" placeholder="Example: 12:03:43" v-model="new_incident.time"/>
+                        <br/>
+                        <label for="time"></label>
+
+                        <span>Code</span><br/>
+                        <input id="code" type="text" placeholder="Example: 110" v-model="new_incident.code"/>
+                        <br/>
+
+                        <span>Incident</span><br/>
+                        <input id="incident" type="text" placeholder="Example: Murder, Non Negligent Manslaughter" v-model="new_incident.incident"/>
+                        <br/>
+
+                        <span>Police Grid</span><br/>
+                        <input id="police_grid" type="text" placeholder="Example: 87" v-model="new_incident.police_grid"/>
+                        <br/>
+
+                        <span>Neighborhood Number</span><br/>
+                        <input id="neighborhood_number" type="text" placeholder="Example: 7" v-model="new_incident.neighborhood_number"/>
+                        <br/>
+
+                        <span>Block</span><br/>
+                        <input id="block" type="text" placeholder="Example: THOMAS AV & VICTORIA" v-model="new_incident.block"/>
+                        <br/>
+                        <span>new incident has: {{ new_incident }}</span>
+
+                        <button id="lookup" class="cell small-3 button" type="button" @click="newIncident">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    -->
+
+
     <div v-if="view === 'about'">
         <!-- Replace this with your actual about the project content: can be done here or by making a new component -->
         <div class="grid-container">
