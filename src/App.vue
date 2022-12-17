@@ -200,7 +200,7 @@ export default {
     </div>
      <div class="grid-container">
         <div class="grid-x grid-padding-x">
-            
+        
         </div>
     </div>
     <div v-if="view === 'new_incident'">
@@ -210,6 +210,7 @@ export default {
                 <h1 class="cell auto">New Incident Form</h1>
                 <div class="cell small-12 large-12">
                     <form id="form" method="PUT" action="/new-incident">
+                
                         <table>
                             <tr>
                                 <td>Case Number:</td> 
@@ -256,7 +257,8 @@ export default {
                             </tr>
                             
                         </table>
-                        <button id="submit" type="button" value="Submit" onclick="uploadJSON">Submit</button>
+                        
+                        <button id="submit" type="submit" value="Submit" onclick="uploadJSON(PUT, http://localhost:8005/new-incident, data)">Submit</button>
                     </form>
                 </div>
             </div>
@@ -267,6 +269,7 @@ export default {
         <div class="grid-container">
             <div class="grid-x grid-padding-x">
                 <h1 class="cell auto">About the Project</h1>
+              
             </div>
         </div>
     </div>
