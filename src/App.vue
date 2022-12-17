@@ -235,15 +235,21 @@ export default {
                                 <td>Police Grid:</td>
                                 <td><input id="police_grid" type="text" placeholder="police grid" name="police_grid" required></td>
                             </tr>
-                            <tr v-for="(item, index) in neighborhoods">
+                            <tr>
+                                <td>Neighborhood:</td>
+                                    <select>
+                                        <option v-for="(item, index) in neighborhoods"> {{item.name}} </option>
+                                    </select>
+                            </tr>
+                            <!-- <tr v-for="(item, index) in neighborhoods">
                                 <td>Neighborhood:</td>
                                 <td>
                                     <select>
                                         <option>{{item.name}}</option>
                                     </select>
                                 </td>
-                                <!-- <td id="neighbothood_number">{{item.id}}</td> -->
-                            </tr>
+                                <!- <td id="neighbothood_number">{{item.id}}</td> --
+                            </tr> -->
                             <tr>
                                 <td>Block:</td>
                                 <td><input id="block" type="text" placeholder="block" name="block" required></td>
