@@ -19,14 +19,11 @@ export default {
                 block: null
             },
             filter: {
-                case_number: null,
-                date: null,
-                time: null,
-                code: "",
-                incident: null,
-                police_grid: null,
-                neighborhood_number: "",
-                block: null
+                incident_type: [],
+                neighborhood_number: [],
+                startDate: null,
+                endDate: null,
+                limit: null,
             }, 
             leaflet: {
                 map: null,
@@ -109,11 +106,11 @@ export default {
         },
 
         getIncidentType(code) {
-             let i = 0;
+           /*   let i = 0;
              while (code != this.codes[i].code) {
                 i++;
             }
-            return this.codes[i].type;
+            return this.codes[i].type; */
         },
 
         newIncident(event){
@@ -127,9 +124,62 @@ export default {
             })
         },
 
-        filterIncident(event) {
-            let url = "http://localhost:8000/incidents?";
-            this.uploadJSON('GET', url, this.filter).then((data) => {
+        reset() {
+            this.getJSON('http://localhost:8005/incidents').then((data) => {
+            this.incidents = data;
+        }).catch((error) => {
+            console.log('Error:', error);
+        })
+        },
+
+        filterIncident(filterData) {
+            let url = "http://localhost:8005/incidents?";
+            let count = 0;
+            //Start Date
+            if(filterData.startDate != null) {
+                url = url + "start_date=" + filterData.startDate;
+                count++;
+            }
+            //End Date
+            if(filterData.endDate != null) {
+                if(count > 0) {
+                    url = url + "&";
+                }
+                url = url + "end_date=" + filterData.endDate;
+                count++;
+            }
+            //Neighborhood Number
+            let i;
+            let neighborhoodCount = 0;
+            for(i = 0; i < filterData.neighborhood_number.length; i++) {
+                
+                if(filterData.neighborhood_number[i] != null) {
+                    if(count > 0 && neighborhoodCount == 0) {
+                    url = url + "&";
+                    }
+                    if (neighborhoodCount == 0) {
+                        url = url + "neighborhood="  + (i + 1);
+                    }
+                    if (neighborhoodCount > 0) {
+                        url = url + ","  + (i + 1);
+                    }
+                    
+                    neighborhoodCount++;
+                }
+
+            }
+            //Limit
+            if(filterData.limit != null) {
+                if(count > 0) {
+                    url = url + "&";
+                }
+                url = url + "limit=" + filterData.limit;
+            }
+
+            console.log(url);
+            this.getJSON(url)//+ key + "=" + value)
+            .then((data) => {
+                this.incidents = data;
                 console.log(data);
             }).catch((error) => {
                 console.log(error);
@@ -213,8 +263,41 @@ export default {
         </div>
     </div>
     <div v-show="view === 'map'">
+   
+
         <div class="grid-container">
-            <div class="grid-x grid-padding-x">
+            <div class="grid-x grid-padding-x"> 
+                <div>
+                <form>
+                    <h1>Filters</h1>
+                    <!-- Incident Type check boxes -->
+                    <h4>Incident Type</h4>
+                    
+
+                    <!-- Neighborhood Name check boxes -->
+                    <h4>Neighborhoods</h4>
+                        <ul>
+                            <li v-for="(item, index) in neighborhoods">
+                                <input type="checkbox" id={{item.name}} name={{item.name}} value={{item.name}} v-model="filter.neighborhood_number[index]">
+                                <label for="vehicle1">{{item.name}}</label><br>
+                        </li>
+                        </ul>
+                        
+
+                    <!-- Date Range - start date and end date -->
+                    <h4>Date Range</h4>
+                    <p>Start Date: </p><input type="date" v-model="filter.startDate">
+                    <p>End Date: </p><input type="date" v-model="filter.endDate">
+
+                    <!-- Max Incidents limit -->
+                    <h4>Max Incidents</h4>
+                    <input type="text" v-model="filter.limit">
+
+                        <span> Filter has: {{ filter }}</span>
+                    <button id="update" class="cell small-1 button" type="button" @click="filterIncident(filter)">Update</button>
+                    <button id="reset" class="cell small-1 button" type="button" @click="reset()">Reset</button>
+                </form>
+                </div>
                 <div id="leafletmap" class="cell auto"></div>
                 <table>
                 <thead>
@@ -441,6 +524,10 @@ export default {
 
 th, td {
     border: solid, 1px, black;
+}
+
+ul {
+    list-style: none;
 }
 
 
