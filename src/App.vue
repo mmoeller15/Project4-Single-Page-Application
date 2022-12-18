@@ -17,6 +17,16 @@ export default {
                 police_grid: null,
                 neighborhood_number: "",
                 block: null
+            },
+            filter: {
+                case_number: null,
+                date: null,
+                time: null,
+                code: "",
+                incident: null,
+                police_grid: null,
+                neighborhood_number: "",
+                block: null
             }, 
             leaflet: {
                 map: null,
@@ -113,12 +123,22 @@ export default {
                 console.log(data);
             }).catch((error) => {
                 console.log(error);
+                alert("This incident already exists. Please try again");
+            })
+        },
+
+        filterIncident(event) {
+            let url = "http://localhost:8000/incidents?";
+            this.uploadJSON('GET', url, this.filter).then((data) => {
+                console.log(data);
+            }).catch((error) => {
+                console.log(error);
             })
         }
     },
     mounted() {
 
-        this.leaflet.map = L.map('leafletmap').setView([this.leaflet.center.lat, this.leaflet.center.lng], this.leaflet.zoom);
+        this.leaflet.map = L.map('leafletmap', {zoomAnimation: false}).setView([this.leaflet.center.lat, this.leaflet.center.lng], this.leaflet.zoom);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
             minZoom: 11,
@@ -133,8 +153,6 @@ export default {
                 .addTo(this.leaflet.map);
             
         }
-
-        
 
 
         let district_boundary = new L.geoJson();
@@ -164,7 +182,8 @@ export default {
 
         this.getJSON('http://localhost:8005/incidents').then((data) => {
             this.incidents = data;
-            //loop over incidents to count number of crimes with this.incidents.neighborhood_number, 17 counters to ocunt for each neighborhood
+            //loop over incidents to count number of crimes with this.incidents.neighborhood_number, \
+            //17 counters to ocunt for each neighborhood
             let i;
             let neighborhood_array = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             for (i=0; i < this.incidents.length; i++){
@@ -243,7 +262,7 @@ export default {
                 <h1 class="cell auto">New Incident Form</h1>
             </div>    
                 <div class="cell small-12 large-12">
-                    <form id="form" method="PUT" action="/new-incident">
+                    <form id="form" method="PUT" action="/new-incident" @submit.prevent="sendMessage">
                         <span>Case Number:</span><br/>
                         <input id="case_number" type="text" placeholder="Example: 12345678" v-model="new_incident.case_number" required/>
                         <label for="case_number"></label>
@@ -274,6 +293,10 @@ export default {
                         <span>Neighborhood Number</span><br/>
                         <input id="neighborhood_number" type="text" placeholder="Example: 1" v-model="new_incident.neighborhood_number" required/>
                         <br/>
+
+                        <select>
+                            <option v-for="(item, index) in neighborhoods"> {{item.name}} </option>
+                        </select>
 
                         <span>Block</span><br/>
                         <input id="block" type="text" placeholder="Example: 212 OLD HUDSON RD" v-model="new_incident.block" required/>
@@ -349,11 +372,25 @@ export default {
                 <div class="cell small-12 medium-12 large-6">
                     <h3> Alina Kanayinkal </h3>
                 </div>
+                <!-- add image -->
+                <div class="cell small-12 medium-12 large-4">
+                    <img src="images/my_profile_picture.png" alt="Alina Photo"/>
+                </div>
+                
                 <div class="cell small-12 medium-12 large-6">
                     <h3> Ivan Jimenez </h3>
                 </div>
-                <div class="cell small-12 medium-12 large-6">
+                <!-- add image -->
+                <div class="cell small-12 medium-12 large-4">
+                    <img src="images/my_profile_picture.png" alt="Ivan Photo"/>
+                </div>
+
+                <div class="cell small-12 medium-12 large-8">
                     <h3> Maddie Moeller </h3>
+                </div>
+                <!-- add image -->
+                <div class="cell small-12 medium-12 large-4">
+                    <img src="images/my_profile_picture.png" alt="Maddie Photo"/>
                 </div>
 
                 <div class="cell small-12 large-12">
