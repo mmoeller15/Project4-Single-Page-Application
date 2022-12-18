@@ -8,6 +8,7 @@ export default {
             codes: [],
             neighborhoods: [], 
             incidents: [],
+            errors: [],
             new_incident:{
                 case_number: null,
                 date: null,
@@ -115,6 +116,65 @@ export default {
 
         newIncident(event){
             console.log(event);
+            
+            if (this.new_incident.case_number === ''){
+                $('#case_number').css('border-color', 'FF0000');
+                this.errors.push('Required');
+            } /*else if (this.new_incident.case_number === stat 500){
+
+            }*/else{
+                //do nothing
+            }
+
+            if (this.new_incident.date === ''){//or null
+                $('#date').css('border-color', 'FF0000');
+                this.errors.push('Required');
+            } else{
+                //do nothing
+            }
+
+            if (this.new_incident.time === ''){//or null
+                $('#time').css('border-color', 'FF0000');
+                this.errors.push('Required');
+            } else{
+                //do nothing?
+            }
+
+            if (this.new_incident.code === ''){
+                $('#code').css('border-color', 'FF0000');
+                this.errors.push('Required');
+            } else {
+                //do nothing?
+            }
+
+            if (this.new_incident.incident === ''){
+                $('#incident').css('border-color', 'FF0000');
+                this.errors.push('Required');
+            } else {
+                //do nothing?
+            }
+
+            if (this.new_incident.police_grid === ''){
+                $('#police_grid').css('border-color', 'FF0000');
+                this.errors.push('Required');
+            } else {
+                //do nothing?
+            }
+
+            if (this.new_incident.neighborhood_number === ''){
+                $('#neighborhood_number').css('border-color', 'FF0000');
+                this.errors.push('Required');
+            } else {
+                //do nothing?
+            }
+
+            if (this.new_incident.block === ''){
+                $('#block').css('border-color', 'FF0000');
+                this.errors.push('Required');
+            } else {
+                //do nothing?
+            }
+            
             let url = "http://localhost:8005/new-incident";
             this.uploadJSON('PUT', url, this.new_incident).then((data) => {
                 console.log(data);
@@ -501,7 +561,9 @@ export default {
                 </div>
                 <div class="cell small-12 medium-12 large-8">
                     <h5> 
-                        example text
+                        I am a fourth year student at the University of St. Thomas.
+                        I am majoring in Applied Mathematics and minoring in Computer 
+                        Science.
                     </h5>
                 </div>
                 <!-- add image -->
