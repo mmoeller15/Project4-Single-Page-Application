@@ -199,7 +199,17 @@ export default {
                 <div id="leafletmap" class="cell auto"></div>
                 <table>
                 <thead>
-        <tr><th>#</th><th>Case Number</th><th>Date</th><th>Time</th><th>Neighborhood</th><th>Incident</th><th>Block</th></tr>
+        <tr>
+            <th>#</th>
+            <th>Case Number</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Incident</th>
+            <th>Incident in Detail</th>
+            <th>Police Grid</th>
+            <th>Neighborhood</th>
+            <th>Block</th>
+        </tr>
         </thead>
         <tbody>
             <tr v-for="(itemIncidents, index) in incidents" :class="(index % 2 === 0) ? 'even' : 'odd'">
@@ -207,8 +217,10 @@ export default {
                 <td>{{ itemIncidents.case_number }}</td>
                 <td>{{ itemIncidents.date }}</td>
                 <td>{{ itemIncidents.time }}</td>
-                <td>{{ neighborhoods[itemIncidents.neighborhood_number - 1].name }}</td>
+                <td>{{ itemIncidents.incident }}</td>
                 <td>{{ getIncidentType(itemIncidents.code) }}</td>
+                <td>{{ itemIncidents.police_grid }}</td>
+                <td>{{ neighborhoods[itemIncidents.neighborhood_number - 1].name }}</td>
                 <td>{{ itemIncidents.block }}</td>
                 </tr>
         </tbody>
@@ -331,7 +343,28 @@ export default {
         <div class="grid-container">
             <div class="grid-x grid-padding-x">
                 <h1 class="cell auto">About the Project</h1>
-              
+                <div class="cell small-12 large-12">
+                    <h2 class="cell auto">About Us</h2>
+                </div>
+                <div class="cell small-12 medium-12 large-6">
+                    <h3> Alina Kanayinkal </h3>
+                </div>
+                <div class="cell small-12 medium-12 large-6">
+                    <h3> Ivan Jimenez </h3>
+                </div>
+                <div class="cell small-12 medium-12 large-6">
+                    <h3> Maddie Moeller </h3>
+                </div>
+
+                <div class="cell small-12 large-12">
+                    <h2 class="cell auto">Tools Used</h2>
+                </div>
+                <div class="cell small-12 medium-12 large-6">
+                    <h3> Vue </h3>
+                </div>
+                <div class="cell small-12 medium-12 large-6">
+                    <h3> Leaflet </h3>
+                </div>
             </div>
         </div>
     </div>
