@@ -12,10 +12,10 @@ export default {
                 case_number: null,
                 date: null,
                 time: null,
-                code: null,
+                code: "",
                 incident: null,
                 police_grid: null,
-                neighborhood_number: null,
+                neighborhood_number: "",
                 block: null
             }, 
             leaflet: {
@@ -222,7 +222,10 @@ export default {
         </div>
     </div>
     <div v-if="view === 'new_incident'">
-        <!-- Replace this with your actual form: can be done here or by making a new component -->
+        <!-- Replace this with your actual form: can be done here or by making a new component
+        getIncidentType(itemIncidents.code)
+        neighborhoods[itemIncidents.neighborhood_number - 1].name
+        -->
         <div class="grid-container">
             <div class="grid-x grid-padding-x">
                 <h1 class="cell auto">New Incident Form</h1>
@@ -230,38 +233,38 @@ export default {
                 <div class="cell small-12 large-12">
                     <form id="form" method="PUT" action="/new-incident">
                         <span>Case Number:</span><br/>
-                        <input id="case_number" type="text" placeholder="Example: 12345678" v-model="new_incident.case_number">
+                        <input id="case_number" type="text" placeholder="Example: 12345678" v-model="new_incident.case_number" required/>
                         <label for="case_number"></label>
                         <br/>
 
                         <span>Date:</span><br/>
-                        <input id="date" type="text" placeholder="Example: 2019-04-26" v-model="new_incident.date"/>
+                        <input id="date" type="text" placeholder="Example: 2019-04-26" v-model="new_incident.date" required/>
                         <label for="date"></label>
                         <br/>
                         
                         <span>Time</span><br/>
-                        <input id="time" type="text" placeholder="Example: 19:15:00" v-model="new_incident.time"/>
+                        <input id="time" type="text" placeholder="Example: 19:15:00" v-model="new_incident.time" required/>
                         <br/>
                         <label for="time"></label>
 
                         <span>Code</span><br/>
-                        <input id="code" type="text" placeholder="Example: 600" v-model="new_incident.code"/>
+                        <input id="code" type="text" placeholder="Example: 600" v-model="new_incident.code" required/>
                         <br/>
 
                         <span>Incident</span><br/>
-                        <input id="incident" type="text" placeholder="Example: Theft" v-model="new_incident.incident"/>
+                        <input id="incident" type="text" placeholder="Example: Theft" v-model="new_incident.incident" required/>
                         <br/>
 
                         <span>Police Grid</span><br/>
-                        <input id="police_grid" type="text" placeholder="Example: 49" v-model="new_incident.police_grid"/>
+                        <input id="police_grid" type="text" placeholder="Example: 49" v-model="new_incident.police_grid" required/>
                         <br/>
 
                         <span>Neighborhood Number</span><br/>
-                        <input id="neighborhood_number" type="text" placeholder="Example: 1" v-model="new_incident.neighborhood_number"/>
+                        <input id="neighborhood_number" type="text" placeholder="Example: 1" v-model="new_incident.neighborhood_number" required/>
                         <br/>
 
                         <span>Block</span><br/>
-                        <input id="block" type="text" placeholder="Example: 212 OLD HUDSON RD" v-model="new_incident.block"/>
+                        <input id="block" type="text" placeholder="Example: 212 OLD HUDSON RD" v-model="new_incident.block" required/>
                         <br/>
                         <span> New incident has: {{ new_incident }}</span>
 
@@ -322,61 +325,6 @@ export default {
             
         </div>
     </div>
-
-    <!--
-
-        <div v-if="view === 'new_incident'">
-            <div class="grid-container">
-                <div class="grid-x grid-padding-x">
-                    <h1 class="cell auto">New Incident Form</h1>
-                </div>
-            </div>
-
-            <div class="grid-container">
-                <div class="grid-x grid-padding-x">
-                    <div>
-                        <span>Case Number</span><br>
-                        <input id="case_number" type="text" placeholder="Example: 11111111" v-model="new_incident.case_number"><label for="case_number"></label>
-                        <br>
-
-                        <span>Date</span><br/>
-                        <input id="date" type="text" placeholder="Example: 2022-05-31" v-model="new_incident.date"/>
-                        <br/>
-                        
-                        <label for="date"></label>
-                        <span>Time</span><br/>
-                        <input id="time" type="text" placeholder="Example: 12:03:43" v-model="new_incident.time"/>
-                        <br/>
-                        <label for="time"></label>
-
-                        <span>Code</span><br/>
-                        <input id="code" type="text" placeholder="Example: 110" v-model="new_incident.code"/>
-                        <br/>
-
-                        <span>Incident</span><br/>
-                        <input id="incident" type="text" placeholder="Example: Murder, Non Negligent Manslaughter" v-model="new_incident.incident"/>
-                        <br/>
-
-                        <span>Police Grid</span><br/>
-                        <input id="police_grid" type="text" placeholder="Example: 87" v-model="new_incident.police_grid"/>
-                        <br/>
-
-                        <span>Neighborhood Number</span><br/>
-                        <input id="neighborhood_number" type="text" placeholder="Example: 7" v-model="new_incident.neighborhood_number"/>
-                        <br/>
-
-                        <span>Block</span><br/>
-                        <input id="block" type="text" placeholder="Example: THOMAS AV & VICTORIA" v-model="new_incident.block"/>
-                        <br/>
-                        <span>new incident has: {{ new_incident }}</span>
-
-                        <button id="lookup" class="cell small-3 button" type="button" @click="newIncident">Submit</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    -->
-
 
     <div v-if="view === 'about'">
         <!-- Replace this with your actual about the project content: can be done here or by making a new component -->
