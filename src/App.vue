@@ -135,8 +135,13 @@ export default {
         filterIncident(filterData) {
             let url = "http://localhost:8005/incidents?";
             let count = 0;
+            //Incident Type
+
             //Start Date
             if(filterData.startDate != null) {
+                if(count > 0) {
+                    url = url + "&";
+                }
                 url = url + "start_date=" + filterData.startDate;
                 count++;
             }
@@ -153,7 +158,7 @@ export default {
             let neighborhoodCount = 0;
             for(i = 0; i < filterData.neighborhood_number.length; i++) {
                 
-                if(filterData.neighborhood_number[i] != null) {
+                if(filterData.neighborhood_number[i] == true) {
                     if(count > 0 && neighborhoodCount == 0) {
                     url = url + "&";
                     }
@@ -177,7 +182,7 @@ export default {
             }
 
             console.log(url);
-            this.getJSON(url)//+ key + "=" + value)
+            this.getJSON(url)
             .then((data) => {
                 this.incidents = data;
                 console.log(data);
@@ -264,10 +269,10 @@ export default {
     </div>
     <div v-show="view === 'map'">
    
-
         <div class="grid-container">
             <div class="grid-x grid-padding-x"> 
-                <div>
+                <div class="cell large-12">
+
                 <form>
                     <h1>Filters</h1>
                     <!-- Incident Type check boxes -->
