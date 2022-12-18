@@ -106,11 +106,11 @@ export default {
         },
 
         getIncidentType(code) {
-           /*   let i = 0;
+            let i = 0;
              while (code != this.codes[i].code) {
                 i++;
             }
-            return this.codes[i].type; */
+            return this.codes[i].type;
         },
 
         newIncident(event){
@@ -118,9 +118,16 @@ export default {
             let url = "http://localhost:8005/new-incident";
             this.uploadJSON('PUT', url, this.new_incident).then((data) => {
                 console.log(data);
+                alert("Incident added.");
+                this.reset();
             }).catch((error) => {
                 console.log(error);
-                alert("This incident already exists. Please try again");
+                if (error.status === 500){
+                    alert("This incident already exists. Please try again");
+                }
+                else {
+                    alert("404: Could not be added");
+                }
             })
         },
 
@@ -180,10 +187,24 @@ export default {
             this.getJSON(url)//+ key + "=" + value)
             .then((data) => {
                 this.incidents = data;
+            })
+        },
+
+        removeIncident(i) {
+            let url = "http://localhost:8005/remove-incident";
+            this.uploadJSON('DELETE', url, this.incidents[i]).then((data) => {
                 console.log(data);
+                alert("Incident removed.");
+                this.reset();
             }).catch((error) => {
                 console.log(error);
+                alert("This incident could not be deleted. Please try again");
             })
+        },
+
+        crimeFinder(i){
+            let crime = this.incidents[i].incident;
+            console.log(crime);
         }
     },
     mounted() {
@@ -311,10 +332,12 @@ export default {
             <th>Police Grid</th>
             <th>Neighborhood</th>
             <th>Block</th>
+            <th>Delete?</th>
         </tr>
         </thead>
         <tbody>
-            <tr v-for="(itemIncidents, index) in incidents" :class="(index % 2 === 0) ? 'even' : 'odd'">
+            <tr v-for="(itemIncidents, index) in incidents" :class="(crimeFinder(index)) ? 'violent' : 'property'">
+                <!-- (index % 2 === 0) ? 'even' : 'odd' -->
                 <td>{{ index + 1 }}</td>
                 <td>{{ itemIncidents.case_number }}</td>
                 <td>{{ itemIncidents.date }}</td>
@@ -324,6 +347,9 @@ export default {
                 <td>{{ itemIncidents.police_grid }}</td>
                 <td>{{ neighborhoods[itemIncidents.neighborhood_number - 1].name }}</td>
                 <td>{{ itemIncidents.block }}</td>
+                <td>
+                    <button id="lookup" class="cell small-3 button" type="button" @click="removeIncident(index)"> Delete </button>
+                </td>
                 </tr>
         </tbody>
             </table>
@@ -376,10 +402,6 @@ export default {
                         <span>Neighborhood Number</span><br/>
                         <input id="neighborhood_number" type="text" placeholder="Example: 1" v-model="new_incident.neighborhood_number" required/>
                         <br/>
-
-                        <select>
-                            <option v-for="(item, index) in neighborhoods"> {{item.name}} </option>
-                        </select>
 
                         <span>Block</span><br/>
                         <input id="block" type="text" placeholder="Example: 212 OLD HUDSON RD" v-model="new_incident.block" required/>
@@ -452,16 +474,30 @@ export default {
                 <div class="cell small-12 large-12">
                     <h2 class="cell auto">About Us</h2>
                 </div>
-                <div class="cell small-12 medium-12 large-6">
+                <div class="cell small-12 medium-12 large-8">
                     <h3> Alina Kanayinkal </h3>
                 </div>
+                <div class="cell small-12 medium-12 large-6">
+                    <h5> 
+                        I am a third year student at the University of St. Thomas.
+                        I am majoring in Computer Science and minoring in Applied
+                        Statistics. 
+                    </h5>
+                </div>
+                <div class="cell small-12 medium-12 large-2"></div>
                 <!-- add image -->
                 <div class="cell small-12 medium-12 large-4">
-                    <img src="images/my_profile_picture.png" alt="Alina Photo"/>
+                    <img src="images/alina_prof_pic.png" alt="Alina Photo"/>
                 </div>
                 
-                <div class="cell small-12 medium-12 large-6">
+                
+                <div class="cell small-12 medium-12 large-8">
                     <h3> Ivan Jimenez </h3>
+                </div>
+                <div class="cell small-12 medium-12 large-8">
+                    <h5> 
+                        example text
+                    </h5>
                 </div>
                 <!-- add image -->
                 <div class="cell small-12 medium-12 large-4">
@@ -471,20 +507,47 @@ export default {
                 <div class="cell small-12 medium-12 large-8">
                     <h3> Maddie Moeller </h3>
                 </div>
+                <div class="cell small-12 medium-12 large-8">
+                    <h5> 
+                        example text 
+                    </h5>
+                </div>
                 <!-- add image -->
                 <div class="cell small-12 medium-12 large-4">
-                    <img src="images/my_profile_picture.png" alt="Maddie Photo"/>
+                    <img src="images/maddie_prof_pic.jpg" alt="Maddie Photo"/>
                 </div>
 
                 <div class="cell small-12 large-12">
                     <h2 class="cell auto">Tools Used</h2>
                 </div>
-                <div class="cell small-12 medium-12 large-6">
+                <div class="cell small-12 medium-12 large-4">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/1184px-Vue.js_Logo_2.svg.png" alt="Vue Logo"/>
+                </div>
+                <div class="cell small-12 medium-12 large-8">
                     <h3> Vue </h3>
                 </div>
-                <div class="cell small-12 medium-12 large-6">
+
+                <div class="cell small-12 medium-12 large-4">
+                    <img src="images/my_profile_picture.png" alt="Leaflet Logo"/>
+                </div>
+                <div class="cell small-12 medium-12 large-8">
                     <h3> Leaflet </h3>
                 </div>
+
+                <div class="cell small-12 medium-12 large-4">
+                    <img src="images/my_profile_picture.png" alt="Nominatim Logo"/>
+                </div>
+                <div class="cell small-12 medium-12 large-8">
+                    <h3> Nominatim </h3>
+                </div>
+
+                <div class="cell small-12 medium-12 large-4">
+                    <img src="images/my_profile_picture.png" alt="Nominatim Logo"/>
+                </div>
+                <div class="cell small-12 medium-12 large-8">
+                    <h3> St. Paul Crime API </h3>
+                </div>
+
             </div>
         </div>
     </div>
