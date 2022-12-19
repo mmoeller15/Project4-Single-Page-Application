@@ -547,7 +547,6 @@ export default {
                         <span>Block</span><br/>
                         <input id="block" type="text" placeholder="Example: 212 OLD HUDSON RD" v-model="new_incident.block" required/>
                         <br/>
-                        <span> New incident has: {{ new_incident }}</span>
 
                         <button id="lookup" class="cell small-3 button" type="button" @click="newIncident">Submit</button>
                     </form>
@@ -618,27 +617,71 @@ export default {
                 </div>
                 <div class="cell small-12 medium-12 large-8">
                     <h3> Vue </h3>
+                    <p>"Vue is a JavaScript framework for building user interfaces. 
+                    It builds on top of standard HTML, CSS, and JavaScript and provides a declarative and 
+                    component-based programming model that helps you efficiently develop user interfaces, 
+                    be they simple or complex."</p>
+                    <a href="https://vuejs.org/">More Info</a>
+
                 </div>
 
                 <div class="cell small-12 medium-12 large-4">
-                    <img src="images/my_profile_picture.png" alt="Leaflet Logo"/>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Leaflet_logo.svg/800px-Leaflet_logo.svg.png.png" alt="Leaflet Logo"/>
                 </div>
                 <div class="cell small-12 medium-12 large-8">
                     <h3> Leaflet </h3>
+                    <p>"Leaflet is the leading open-source JavaScript library for mobile-friendly interactive maps. 
+                    Weighing just about 42 KB of JS, it has all the mapping features most developers ever need. 
+                    Leaflet is designed with simplicity, performance and usability in mind. It works efficiently across 
+                    all major desktop and mobile platforms, can be extended with lots of plugins, has a beautiful, easy to 
+                    use and well-documented API and a simple, readable source code that is a joy to contribute to."</p>
+                    <a href="https://leafletjs.com/">More Info</a>
                 </div>
 
                 <div class="cell small-12 medium-12 large-4">
-                    <img src="images/my_profile_picture.png" alt="Nominatim Logo"/>
+                    <img src="https://raw.githubusercontent.com/juancarlospaco/nim-overpass/master/osm.jpg" alt="Nominatim Logo"/>
                 </div>
                 <div class="cell small-12 medium-12 large-8">
                     <h3> Nominatim </h3>
+                    <p>"Nominatim uses OpenStreetMap data to find locations on Earth by name
+                     and address (geocoding). It can also do the reverse, find an address 
+                     for any location on the planet."</p>
+                     <a href="https://nominatim.org/">More Info</a>
                 </div>
 
                 <div class="cell small-12 medium-12 large-4">
-                    <img src="images/my_profile_picture.png" alt="Nominatim Logo"/>
+                    <img src="https://www.arcgis.com/sharing/rest/content/items/1e2bdd73bc384d70aea7a337ba0cd3ce/resources/stpaul-logo-horizontal-web-only.png?v=1671424003839" alt="St Paul Logo"/>
                 </div>
                 <div class="cell small-12 medium-12 large-8">
                     <h3> St. Paul Crime API </h3>
+                    <p>"Incidents from Aug 14 2014 through the most recent available in the City of Saint Paul.
+                     The data is released by the Saint Paul Police Department every 2 to 3 weeks and includes the 
+                     following categories: Homicide, Rape, Robbery, Aggravated Assault, Burglary, Theft, Auto Theft, 
+                     Arson, Domestic Assaults, Vandalism, Narcotics, and Firearm Discharges. 
+                     Statistics displayed do not reflect official crime index totals, and may change after full investigation"</p>
+                     <a href="https://information.stpaul.gov/datasets/stpaul::crime-incident-report/about">More Info</a>
+                </div>
+                
+                
+                <div class="cell small-12 large-12">
+                <br>
+                <br>
+                    <h2 class="cell auto">6 Interesting Findings</h2>
+                    <ol>
+                        <li>Incidents were misspelled like 'Asasult' which threw off trying to color incident by types </li>
+                        <li>Some of the incidents didn't have incident attached, they were only categorized by code</li>
+                        <li>The Capitol River neighborhood has the most incidents at 107 with the number
+                        of incidents generally geting smaller the further out of the city one gets</li>
+                        <li>Generally more violent crimes take place very early in the morning</li>
+                        <li>Proactive Police Visit is the most common incident type</li>
+                        <li>There is one Investigation of a Death recorded in the dataset</li>
+                    </ol>
+                </div>
+
+                <div class="cell small-12 large-12">
+                <br>
+                <br>
+                    <h2 class="cell auto">Video Demo</h2>
                 </div>
 
             </div>
