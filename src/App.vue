@@ -674,7 +674,7 @@ export default {
                         of incidents generally geting smaller the further out of the city one gets</li>
                         <li>Generally more violent crimes take place very early in the morning</li>
                         <li>Proactive Police Visit is the most common incident type</li>
-                        <li>There is one Investigation of a Death recorded in the dataset</li>
+                        <li>There is only one Investigation of a Death recorded in the dataset</li>
                     </ol>
                 </div>
 
