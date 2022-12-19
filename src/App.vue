@@ -354,6 +354,7 @@ export default {
                             //add that sexy sexy popup ohhh yeeeeehhh
                             marker.bindPopup("Date: " + this.incidents[index].date + "<br/>" + "Time: " + this.incidents[index].time + "<br/>" 
                             + "Incident: " + this.incidents[index].incident + "<br/>" + "<button id=\"lookup\" class=\"cell small-3 button\" type=\"button\" @click=\"removeIncident(index)\"> Delete </button>");
+                            marker._icon.classList.add("huechange");
                             break;
                         }
                     }
@@ -366,7 +367,7 @@ export default {
     },
     mounted() {
 
-        this.leaflet.map = L.map('leafletmap').setView([this.leaflet.center.lat, this.leaflet.center.lng], this.leaflet.zoom);
+        this.leaflet.map = L.map('leafletmap', {zoomAnimation: false}).setView([this.leaflet.center.lat, this.leaflet.center.lng], this.leaflet.zoom);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
             minZoom: 11,
