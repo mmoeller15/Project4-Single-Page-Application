@@ -163,7 +163,29 @@ export default {
             let url = "http://localhost:8005/incidents?";
             let count = 0;
             //Incident Type
+            let j;
+            let incidentCount = 0;
+            for(j = 0; j < filterData.incident_type.length; j++) {
+                
+                if(filterData.incident_type[j] == true) {
+                    if(count > 0 && incidentCount == 0) {
+                    url = url + "&";
+                    }
+                    if (incidentCount == 0) {
+                        url = url + "code="  + j;
+                    }
+                    /* if (incidentCount > 0) {
+                        url = url + ","  + j;
+                    } */
+                    for(let i = ((j+1)*100); i < ((j+1)*100) + 100; i++) {
+                        url = url + "," + i;
+                    }
+                    incidentCount++;
+                }
+                
+                
 
+            }
             //Start Date
             if(filterData.startDate != null) {
                 if(count > 0) {
@@ -331,33 +353,31 @@ export default {
                      <ul>
                             <li><input type="checkbox" id="Homicide" name="Homicide" value="Homicide" v-model="filter.incident_type[0]">
                                 <label for="Homicide">Homicide</label><br></li>
-                            <li><input type="checkbox" id="Murder" name="Murder" value="Murder" v-model="filter.incident_type[1]">
-                                <label for="Murder">Murder</label><br></li> 
-                            <li><input type="checkbox" id="Rape" name="Rape" value="Rape" v-model="filter.incident_type[2]">
+                            <li><input type="checkbox" id="Rape" name="Rape" value="Rape" v-model="filter.incident_type[1]">
                                 <label for="Rape">Rape</label><br></li>  
-                            <li><input type="checkbox" id="Robbery" name="Robbery" value="Robbery" v-model="filter.incident_type[3]">
+                            <li><input type="checkbox" id="Robbery" name="Robbery" value="Robbery" v-model="filter.incident_type[2]">
                                 <label for="Robbery">Robbery</label><br></li>                                                                                            
-                            <li><input type="checkbox" id="Agg_Assault" name="Agg_Assault" value="Agg_Assault" v-model="filter.incident_type[4]">
+                            <li><input type="checkbox" id="Agg_Assault" name="Agg_Assault" value="Agg_Assault" v-model="filter.incident_type[3]">
                                 <label for="Agg_Assault">Agg. Assault</label><br></li>                         
-                            <li><input type="checkbox" id="Burglary" name="Burglary" value="Burglary" v-model="filter.incident_type[5]">
+                            <li><input type="checkbox" id="Burglary" name="Burglary" value="Burglary" v-model="filter.incident_type[4]">
                                 <label for="Burglary">Burglary</label><br></li>       
-                            <li><input type="checkbox" id="Theft" name="Theft" value="Theft" v-model="filter.incident_type[6]">
+                            <li><input type="checkbox" id="Theft" name="Theft" value="Theft" v-model="filter.incident_type[5]">
                                 <label for="Theft">Theft</label><br></li>
-                            <li><input type="checkbox" id="Auto Theft" name="Auto Theft" value="Auto Theft" v-model="filter.incident_type[7]">
+                            <li><input type="checkbox" id="Auto Theft" name="Auto Theft" value="Auto Theft" v-model="filter.incident_type[6]">
                                 <label for="Auto Theft">Auto Theft</label><br></li>
-                            <li><input type="checkbox" id="Simple Assault Dom" name="Simple Assault Dom" value="Simple Assault Dom" v-model="filter.incident_type[8]">
+                            <li><input type="checkbox" id="Simple Assault Dom" name="Simple Assault Dom" value="Simple Assault Dom" v-model="filter.incident_type[7]">
                                 <label for="Simple Assault Dom">Simple Assault Dom</label><br></li>
-                            <li><input type="checkbox" id="Arson" name="Arson" value="Arson" v-model="filter.incident_type[9]">
+                            <li><input type="checkbox" id="Arson" name="Arson" value="Arson" v-model="filter.incident_type[8]">
                                 <label for="Arson">Arson</label><br></li>
-                            <li><input type="checkbox" id="Criminal Damage" name="Criminal Damage" value="Criminal Damage" v-model="filter.incident_type[10]">
+                            <li><input type="checkbox" id="Criminal Damage" name="Criminal Damage" value="Criminal Damage" v-model="filter.incident_type[9]">
                                 <label for="Criminal Damage">Criminal Damage</label><br></li>
-                            <li><input type="checkbox" id="Narcotics" name="Narcotics" value="Narcotics" v-model="filter.incident_type[11]">
+                            <li><input type="checkbox" id="Narcotics" name="Narcotics" value="Narcotics" v-model="filter.incident_type[10]">
                                 <label for="Narcotics">Narcotics</label><br></li>
-                            <li><input type="checkbox" id="Discharge" name="Discharge" value="Discharge" v-model="filter.incident_type[12]">
+                            <li><input type="checkbox" id="Discharge" name="Discharge" value="Discharge" v-model="filter.incident_type[11]">
                                 <label for="Discharge">Discharge</label><br></li>
-                            <li><input type="checkbox" id="Death-Investigation" name="Death-Investigation" value="Death-Investigation" v-model="filter.incident_type[13]">
+                            <li><input type="checkbox" id="Death-Investigation" name="Death-Investigation" value="Death-Investigation" v-model="filter.incident_type[12]">
                                 <label for="Death-Investigation">Death-Investigation</label><br></li>
-                            <li><input type="checkbox" id="Proactive Police Visit" name="Proactive Police Visit" value="Proactive Police Visit" v-model="filter.incident_type[14]">
+                            <li><input type="checkbox" id="Proactive Police Visit" name="Proactive Police Visit" value="Proactive Police Visit" v-model="filter.incident_type[13]">
                                 <label for="Proactive Police Visit">Proactive Police Visit</label><br></li>
                     </ul>
 
