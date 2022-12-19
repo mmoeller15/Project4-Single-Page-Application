@@ -174,9 +174,6 @@ export default {
                     if (incidentCount == 0) {
                         url = url + "code="  + j;
                     }
-                    /* if (incidentCount > 0) {
-                        url = url + ","  + j;
-                    } */
                     for(let i = ((j+1)*100); i < ((j+1)*100) + 100; i++) {
                         url = url + "," + i;
                     }
@@ -369,15 +366,15 @@ export default {
                                 <label for="Simple Assault Dom">Simple Assault Dom</label><br></li>
                             <li><input type="checkbox" id="Arson" name="Arson" value="Arson" v-model="filter.incident_type[8]">
                                 <label for="Arson">Arson</label><br></li>
-                            <li><input type="checkbox" id="Criminal Damage" name="Criminal Damage" value="Criminal Damage" v-model="filter.incident_type[9]">
+                            <li><input type="checkbox" id="Criminal Damage" name="Criminal Damage" value="Criminal Damage" v-model="filter.incident_type[13]">
                                 <label for="Criminal Damage">Criminal Damage</label><br></li>
-                            <li><input type="checkbox" id="Narcotics" name="Narcotics" value="Narcotics" v-model="filter.incident_type[10]">
+                            <li><input type="checkbox" id="Narcotics" name="Narcotics" value="Narcotics" v-model="filter.incident_type[16]">
                                 <label for="Narcotics">Narcotics</label><br></li>
-                            <li><input type="checkbox" id="Discharge" name="Discharge" value="Discharge" v-model="filter.incident_type[11]">
+                            <li><input type="checkbox" id="Discharge" name="Discharge" value="Discharge" v-model="filter.incident_type[25]">
                                 <label for="Discharge">Discharge</label><br></li>
-                            <li><input type="checkbox" id="Death-Investigation" name="Death-Investigation" value="Death-Investigation" v-model="filter.incident_type[12]">
+                            <li><input type="checkbox" id="Death-Investigation" name="Death-Investigation" value="Death-Investigation" v-model="filter.incident_type[30]">
                                 <label for="Death-Investigation">Death-Investigation</label><br></li>
-                            <li><input type="checkbox" id="Proactive Police Visit" name="Proactive Police Visit" value="Proactive Police Visit" v-model="filter.incident_type[13]">
+                            <li><input type="checkbox" id="Proactive Police Visit" name="Proactive Police Visit" value="Proactive Police Visit" v-model="filter.incident_type[98]">
                                 <label for="Proactive Police Visit">Proactive Police Visit</label><br></li>
                     </ul>
 
@@ -555,57 +552,6 @@ export default {
                         <span> New incident has: {{ new_incident }}</span>
 
                         <button id="lookup" class="cell small-3 button" type="button" @click="newIncident">Submit</button>
-
-                    <!--
-                        <table>
-                            <tr>
-                                <td>Case Number:</td> 
-                                <td><input id="case_number" type="text" placeholder="case number" name="case_number" required></td>
-                            </tr>
-                            <tr>
-                                <td>Date:</td>
-                                <td><input id="date" type="date" placeholder="" name="date" required></td>
-                            </tr>
-                            <tr>
-                                <td>Time:</td>
-                                <td><input id="time" type="time" placeholder="" name="time" required></td>
-                            </tr>
-                            <tr>
-                                <td>Code:</td>
-                                <td><input id="code" type="text" placeholder="code" name="code" required></td>
-                            </tr>
-                            <tr>
-                                <td>Incident:</td>
-                                <td><input id="incident" type="text" placeholder="incident" name="incident" required></td>
-                            </tr>
-                            <tr>
-                                <td>Police Grid:</td>
-                                <td><input id="police_grid" type="text" placeholder="police grid" name="police_grid" required></td>
-                            </tr>
-                            <tr>
-                                <td>Neighborhood:</td>
-                                    <select>
-                                        <option v-for="(item, index) in neighborhoods"> {{item.name}} </option>
-                                    </select>
-                            </tr>
-                            <!- <tr v-for="(item, index) in neighborhoods">
-                                <td>Neighborhood:</td>
-                                <td>
-                                    <select>
-                                        <option>{{item.name}}</option>
-                                    </select>
-                                </td>
-                                <!- <td id="neighbothood_number">{{item.id}}</td> --
-                            </tr> --
-                            <tr>
-                                <td>Block:</td>
-                                <td><input id="block" type="text" placeholder="block" name="block" required></td>
-                            </tr>
-                            
-                        </table>
-                        <button id="submit" type="button" value="Submit" onclick="uploadJSON()">Submit</button> --
-                        
-                        <button id="submit" type="submit" value="Submit" onclick="uploadJSON(PUT, http://localhost:8005/new-incident, data)">Submit</button> -->
                     </form>
                 </div>
             
@@ -657,7 +603,8 @@ export default {
                 </div>
                 <div class="cell small-12 medium-12 large-8">
                     <h5> 
-                        example text 
+                        I am a third year student at the University of St. Thomas.
+                        I am majoring in Computer Science and minoring in Mathematics.
                     </h5>
                 </div>
                 <!-- add image -->
