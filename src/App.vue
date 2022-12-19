@@ -368,7 +368,7 @@ export default {
                                 <label for="Arson">Arson</label><br></li>
                             <li><input type="checkbox" id="Criminal Damage" name="Criminal Damage" value="Criminal Damage" v-model="filter.incident_type[13]">
                                 <label for="Criminal Damage">Criminal Damage</label><br></li>
-                            <li><input type="checkbox" id="Narcotics" name="Narcotics" value="Narcotics" v-model="filter.incident_type[16]">
+                            <li><input type="checkbox" id="Narcotics" name="Narcotics" value="Narcotics" v-model="filter.incident_type[17]">
                                 <label for="Narcotics">Narcotics</label><br></li>
                             <li><input type="checkbox" id="Discharge" name="Discharge" value="Discharge" v-model="filter.incident_type[25]">
                                 <label for="Discharge">Discharge</label><br></li>
@@ -397,7 +397,7 @@ export default {
                     <h4>Max Incidents</h4>
                     <input type="text" v-model="filter.limit">
 
-                        <span> Filter has: {{ filter }}</span>
+                        <!-- <span> Filter has: {{ filter }}</span> -->
                     <button id="update" class="cell small-1 button" type="button" @click="filterIncident(filter)">Update</button>
                     <button id="reset" class="cell small-1 button" type="button" @click="reset()">Reset</button>
                 </form>
