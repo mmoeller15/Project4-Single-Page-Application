@@ -19,6 +19,9 @@ export default {
                 neighborhood_number: null,
                 block: null
             },
+            searchbar: {
+                address: null
+            },
             filter: {
                 incident_type: [],
                 neighborhood_number: [],
@@ -284,9 +287,25 @@ export default {
             })
         },
 
-        goLocation(){
-            alert("This does not work, bold to you assume im that smart >:(");
+        goLocation(query_address){
+            console.log(query_address);
+            //alert("This does not work, bold to you assume im that smart >:(");
             let url= "http://nominatim.openstreetmap.org/search?street="+query_address+"&city=ST.+PAUL&format=json";
+
+            console.log(url);
+
+            this.getJSON(url)
+            .then((data) => {
+                console.log(data);
+                
+                console.log(data[0].lat);
+                
+                //this.leaflet.map.panTo(this.leaflet.map, data[0].lat, data[0].lon);
+
+               this.leaflet.map.flyTo([data[0].lat, data[0].lon], 18);
+            })
+            
+            
         }, 
 
         createMarker(block, index){
@@ -532,8 +551,8 @@ export default {
                         </label>
                     <form>
                         <p>Enter in location</p>
-                        <input type="text"><br/>
-                        <button id="go" class="cell small-1 button" type="button" @click="goLocation()">Go</button>
+                        <input type="text" id="go" placeholder="Example: University of St. Thomas" v-model="searchbar.address"><br/>
+                        <button id="go" class="cell small-1 button" type="button" @click="goLocation(searchbar.address)">Go</button>
                     </form>
                 </div>
                 <table>
