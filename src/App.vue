@@ -593,7 +593,7 @@ export default {
                 </div>
                 <!-- add image -->
                 <div class="cell small-12 medium-12 large-4">
-                    <img src="images/my_profile_picture.png" alt="Ivan Photo"/>
+                    <img src="images/ivan_prof_pic.jpeg" alt="Ivan Photo"/>
                 </div>
 
                 <div class="cell small-12 medium-12 large-8">
