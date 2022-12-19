@@ -286,6 +286,7 @@ export default {
 
         goLocation(){
             alert("This does not work, bold to you assume im that smart >:(");
+            let url= "http://nominatim.openstreetmap.org/search?street="+query_address+"&city=ST.+PAUL&format=json";
         }, 
 
         createMarker(block, index){
