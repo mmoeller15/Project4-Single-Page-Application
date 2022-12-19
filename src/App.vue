@@ -406,68 +406,98 @@ export default {
                 </form>
                 </div>
                 <div id="leafletmap" class="cell auto"></div>
+                <div class="cell small-12 medium-12 large-12">
+                    <!-- KEY for colors -->
+                    <legend> Colors </legend>
+                    <center>
+                        <label for="violent" >Violent Crimes:</label>
+                        <label for="property">Property Crimes:</label>
+                        <label for="other">Other Crimes:</label>
+                    </center>
+                </div>
                 <table>
                 <thead>
-        <tr>
-            <th>#</th>
-            <th>Case Number</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Incident</th>
-            <th>Incident in Detail</th>
-            <th>Police Grid</th>
-            <th>Neighborhood</th>
-            <th>Block</th>
-            <th>Delete?</th>
-        </tr>
-        </thead>
-        <!--
-            Crimes:
-                Violent = 
-                Property = Vandalism, Theft, Auto Theft, 
-                Other = Narcotics, Proactive Police Visit, 
-                Total = 23 values
+                    <tr>
+                        <th>#</th>
+                        <th>Case Number</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Incident</th>
+                        <th>Incident in Detail</th>
+                        <th>Police Grid</th>
+                        <th>Neighborhood</th>
+                        <th>Block</th>
+                        <th>Delete?</th>
+                    </tr>
+                </thead>
+                <!--
+                    Crimes:
+                        Violent = 
+                        Property = Vandalism, Theft, Auto Theft, 
+                        Other = Narcotics, Proactive Police Visit, 
+                        Total = 23 values
 
-                {'violent': 
-                 itemIncidents.incident === 'Theft'||
-                 itemIncidents.incident === 'Burglary' ||
-                 itemIncidents.incident === 'Auto Theft',
-                 'property': itemIncidents.incident == 'Agg. Assault'
-                 //'other': itemIncidents.incident == ''
-                 
-                }
+                        {'violent': 
+                        itemIncidents.incident === 'Theft'||
+                        itemIncidents.incident === 'Burglary' ||
+                        itemIncidents.incident === 'Auto Theft',
+                        'property': itemIncidents.incident == 'Agg. Assault'
+                        //'other': itemIncidents.incident == ''
+                        
+                        }
 
-                {'violent': 
-                 itemIncidents.code < 300,
-                 'property': itemIncidents.code > 299 && itemIncidents.code < 500
-                 //'other': itemIncidents.incident == ''
-                }
-        -->
-        <tbody>
-            <tr v-for="(itemIncidents, index) in incidents" :class="
-                {'violent': 
-                 itemIncidents.incident === 'Theft'||
-                 itemIncidents.incident === 'Burglary' ||
-                 itemIncidents.incident === 'Auto Theft',
-                 'property': itemIncidents.incident == 'Agg. Assault'
-                 //'other': itemIncidents.incident == '' .name
-                 
-                }
-                ">
-                <td>{{ index + 1 }}</td>
-                <td>{{ itemIncidents.case_number }}</td>
-                <td>{{ itemIncidents.date }}</td>
-                <td>{{ itemIncidents.time }}</td>
-                <td >{{ itemIncidents.incident }}</td>
-                <td>{{ getIncidentType(itemIncidents.code) }}</td>
-                <td>{{ itemIncidents.police_grid }}</td>
-                <td>{{ neighborhoods[itemIncidents.neighborhood_number - 1] }}</td>
-                <td>{{ itemIncidents.block }}</td>
-                <td>
-                    <button id="lookup" class="cell small-3 button" type="button" @click="removeIncident(index)"> Delete </button>
-                </td>
-                </tr>
-        </tbody>
+                        {'violent': 
+                        itemIncidents.code < 300,
+                        'property': itemIncidents.code > 299 && itemIncidents.code < 500
+                        //'other': itemIncidents.incident == ''
+                        }
+                -->
+                <tbody>
+                    <tr v-for="(itemIncidents, index) in incidents" :class="
+                        {'violent': 
+                        itemIncidents.incident === 'Agg. Assault'||
+                        itemIncidents.incident === 'Agg. Assault Dom' ||
+                        itemIncidents.incident === 'Agg. Assault Dom.' ||
+                        itemIncidents.incident === 'Criminal Discharge' ||
+                        itemIncidents.incident === 'Discharge' ||
+                        itemIncidents.incident === 'Homicide' ||
+                        itemIncidents.incident === 'Rape' ||
+                        itemIncidents.incident === 'Simple Assault Dom' ||
+                        itemIncidents.incident === 'Simple Assault Dom.',
+
+                        'property': 
+                        itemIncidents.incident === 'Arson' ||
+                        itemIncidents.incident === 'Auto Theft' ||
+                        itemIncidents.incident === 'Burglary' ||
+                        itemIncidents.incident === 'Criminal Damage' ||
+                        itemIncidents.incident === 'Graffiti' ||
+                        itemIncidents.incident === 'Robbery' ||
+                        itemIncidents.incident === 'Theft' ||
+                        itemIncidents.incident === 'Vandalism',
+
+                        'other': 
+                        itemIncidents.incident === 'Community Engagement Event' ||
+                        itemIncidents.incident === 'Community Event' ||
+                        itemIncidents.incident === 'Narcotics' ||
+                        itemIncidents.incident === 'Others' ||
+                        itemIncidents.incident === 'Proactive Foot Patrol' ||
+                        itemIncidents.incident === 'Proactive Police Visit' 
+                        }
+                        ">
+                        <td>{{ index + 1 }}</td>
+                        <td>{{ itemIncidents.case_number }}</td>
+                        <td>{{ itemIncidents.date }}</td>
+                        <td>{{ itemIncidents.time }}</td>
+                        <td>{{ itemIncidents.incident }}</td>
+                        <td>{{ getIncidentType(itemIncidents.code) }}</td>
+                        <td>{{ itemIncidents.police_grid }}</td>
+                        <td>{{ neighborhoods[itemIncidents.neighborhood_number - 1].name }}</td>
+                        <td>{{ itemIncidents.block }}</td>
+                        <td>
+                            <button id="lookup" class="cell small-3 button" type="button" @click="removeIncident(index)"> Delete </button>
+                        </td>
+                        </tr>
+                </tbody>
             </table>
             </div>
         </div>
@@ -702,15 +732,15 @@ ul {
 }
 
 .violent{
-    background-color: rgb(162, 206, 235);
+    background-color: rgb(181, 221, 249);
 }
 
 .property {
-    background-color: rgb(142, 204, 143);
+    background-color: rgb(188, 245, 189);
 }
 
 .other {
-    background-color: rgb(227, 145, 145);
+    background-color: rgb(255, 204, 204);
 }
 
 </style>
