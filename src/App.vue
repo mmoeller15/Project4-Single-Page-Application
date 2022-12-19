@@ -123,13 +123,48 @@ export default {
             let i;
             let j;
             let counter = 0;
-            for (i in this.new_incident){
-                for (j in this.new_incident[i]){
-                    //console.log(this.new_incident[i][j]);
-                    if (this.new_incident[i][j] != null){
-                        counter++;
-                    }
-                }
+            //console.log(this.new_incident);
+            //console.log("Before check: " + this.new_incident.case_number);
+            //2022-06-03
+            if (this.new_incident.case_number != null){
+                //console.log("Before check: " + this.new_incident.case_number);
+                counter = counter + 1;
+                //console.log("Added for case number");
+            }
+            if (this.new_incident.date != null){
+                //console.log("Before check: " + this.new_incident.date);
+                counter = counter + 1;
+                //console.log("Added for date");
+            }
+            if (this.new_incident.time != null){
+                //console.log("Before check: " + this.new_incident.time);
+                counter = counter + 1;
+                //console.log("Added for time");
+            }
+            if (this.new_incident.code != null){
+                //console.log("Before check: " + this.new_incident.code);
+                counter = counter + 1;
+                //console.log("Added for code");
+            }
+            if (this.new_incident.incident != null){
+                //console.log("Before check: " + this.new_incident.incident);
+                counter = counter + 1;
+                //console.log("Added for incident");
+            }
+            if (this.new_incident.police_grid != null){
+                //console.log("Before check: " + this.new_incident.police_grid);
+                counter = counter + 1;
+                //console.log("Added for grid");
+            }
+            if (this.new_incident.neighborhood_number != null){
+                //console.log("Before check: " + this.new_incident.neighborhood_number);
+                counter = counter + 1;
+                //console.log("Added for neighborhood");
+            }
+            if (this.new_incident.block != null){
+                //console.log("Before check: " + this.new_incident.block);
+                counter = counter + 1;
+                //console.log("Added for block");
             }
             console.log(counter);
             if (counter === 8){
@@ -249,20 +284,85 @@ export default {
             })
         },
 
-        crimeFinder(incident){
-            //console.log(incident);
-            if (incident.toLowerCase() === 'theft' || 'burglary'){
-                this.class = "violent";
-                //console.log(this.class);
-                return this.class;
+        goLocation(){
+            alert("This does not work, bold to you assume im that smart >:(");
+        }, 
 
-            } else if (incident.toLowerCase() === 'agg. assault') {
-                this.class = "property";
-                //console.log(this.class);
-                return this.class;
-
+        createMarker(block, index){
+            let address = block.split(" ");
+            //console.log(address);
+            //let fixed_address = "";
+            let search_address = [];
+            if (address[0].includes("X")){
+                let add_number = address[0].replace(/X/g, '0');
+                console.log(add_number);
+                //fixed_address = fixed_address + add_number + " ";
+                search_address.push(add_number);
+            } else {
+                //fixed_address = fixed_address + address[0] + " ";
+                search_address.push(address[0]);
             }
-        }
+            let i;
+            for (i=1; i < address.length; i++){
+                //fixed_address = fixed_address + address[i];
+                if (address[i].includes("AND")){
+                    search_address.push("&");
+                } else {
+                    search_address.push(address[i]);
+                }
+                /*
+                if (i != address.length - 1) {
+                fixed_address = fixed_address + " ";
+                }  */
+            }
+            //console.log(fixed_address);
+            console.log(search_address);
+            
+            //https://nominatim.openstreetmap.org/search?street=WARNER+RD+&+SIBLEY&city=ST.+PAUL&format=json
+            let query_address = "";
+            for (i=0; i < search_address.length; i++){
+                query_address = query_address + search_address[i];
+                if (i != search_address.length - 1) {
+                    query_address = query_address + "+";
+                }
+            }
+            console.log(query_address);
+            let url = "http://nominatim.openstreetmap.org/search?street="+query_address+"&city=ST.+PAUL&format=json";
+
+            //console.log(url);
+
+            this.getJSON(url)
+            .then((data) => {
+                console.log(data);
+                for (i=0; i< data.length; i++){
+                    console.log(data[i].lat);
+                    console.log(data[i].lon);
+                    /*
+                    nw: {lat: 45.008206, lng: -93.217977},
+                    se: {lat: 44.883658, lng: -92.993787}
+                    */
+                    if (data[i].lat > this.leaflet.bounds.se.lat && data[i].lat < this.leaflet.bounds.nw.lat){
+                        if (data[i].lon < this.leaflet.bounds.se.lng && data[i].lon > this.leaflet.bounds.nw.lng){
+                            //console.log("DATA IS " + data[i]);
+                            console.log("Data is: ");
+                            console.log(data[i]);
+                            //create marker with latitude and longitude here
+                            var marker = L.marker([data[i].lat, data[i].lon]);
+                            marker.addTo(this.leaflet.map);
+                            alert("Added chosen row as marker to the map");
+                            //console.log(marker);
+                            //add that sexy sexy popup ohhh yeeeeehhh
+                            marker.bindPopup("Date: " + this.incidents[index].date + "<br/>" + "Time: " + this.incidents[index].time + "<br/>" 
+                            + "Incident: " + this.incidents[index].incident + "<br/>" + "<button id=\"lookup\" class=\"cell small-3 button\" type=\"button\" @click=\"removeIncident(index)\"> Delete </button>");
+                            break;
+                        }
+                    }
+                }
+            })
+
+            
+        },
+
     },
     mounted() {
 
@@ -273,18 +373,27 @@ export default {
             maxZoom: 18
         }).addTo(this.leaflet.map);
         this.leaflet.map.setMaxBounds([[44.883658, -93.217977], [45.008206, -92.993787]]);
+        this.leaflet.map.on('zoom', function(ev) {
+            console.log(ev.target.getZoom());
+            console.log(ev.target.getBounds());
+        });
+        this.leaflet.map.on('click', function(ev) {
+            console.log(ev.latlng); // ev is an event object (MouseEvent in this case)
+        });
+        
+        console.log(this.leaflet.bounds.nw.lat);
+        console.log(this.leaflet.bounds.nw.lng);
 
-
-         for(var i = 0; i < this.leaflet.neighborhood_markers.length; i++) {
+        for(var i = 0; i < this.leaflet.neighborhood_markers.length; i++) {
             this.leaflet.neighborhood_markers[i].marker = L.marker([this.leaflet.neighborhood_markers[i].location[0], this.leaflet.neighborhood_markers[i].location[1]])
                 .bindPopup(this.leaflet.neighborhood_markers[i].name)
                 .addTo(this.leaflet.map);
             
         }
 
-
         let district_boundary = new L.geoJson();
         district_boundary.addTo(this.leaflet.map);
+        console.log(district_boundary);
 
         this.getJSON('/data/StPaulDistrictCouncil.geojson').then((result) => {
             // St. Paul GeoJSON
@@ -323,6 +432,7 @@ export default {
                 this.leaflet.neighborhood_markers[i].marker.setPopupContent(this.leaflet.neighborhood_markers[i].name + "<br/>" + neighborhood_array[i]);
             }
             //also do this when implementing other UI features since this only loads for first stuff
+            
         }).catch((error) => {
             console.log('Error:', error);
         })
@@ -409,7 +519,6 @@ export default {
                 <div class="cell small-12 medium-12 large-12">
                     <!-- KEY for colors -->
                     <legend> Colors </legend>
-                    <center>
                         <label for="violent" >Violent Crimes:
                         <span style="width: 15px; height: 15px; margin:auto; display: inline-block; border: 1px solid gray; vertical-align: middle; border-radius: 2px; background: rgb(255, 204, 204) "></span>
                         </label>
@@ -419,7 +528,11 @@ export default {
                         <label for="other">Other Crimes:
                         <span style="width: 15px; height: 15px; margin:auto; display: inline-block; border: 1px solid gray; vertical-align: middle; border-radius: 2px; background: rgb(181, 221, 249) "></span>
                         </label>
-                    </center>
+                    <form>
+                        <p>Enter in location</p>
+                        <input type="text"><br/>
+                        <button id="go" class="cell small-1 button" type="button" @click="goLocation()">Go</button>
+                    </form>
                 </div>
                 <table>
                 <thead>
@@ -434,6 +547,7 @@ export default {
                         <th>Neighborhood</th>
                         <th>Block</th>
                         <th>Delete?</th>
+                        <th>Select</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -477,8 +591,8 @@ export default {
                         itemIncidents.incident === 'Others' ||
                         itemIncidents.incident === 'Proactive Foot Patrol' ||
                         itemIncidents.incident === 'Proactive Police Visit' 
-                        }
-                        ">
+                        }">
+                        
                         <td>{{ index + 1 }}</td>
                         <td>{{ itemIncidents.case_number }}</td>
                         <td>{{ itemIncidents.date }}</td>
@@ -490,6 +604,9 @@ export default {
                         <td>{{ itemIncidents.block }}</td>
                         <td>
                             <button id="lookup" class="cell small-3 button" type="button" @click="removeIncident(index)"> Delete </button>
+                        </td>
+                        <td>
+                            <button id="lookup" class="cell small-3 button" type="button" @click="createMarker(itemIncidents.block, index)"> Select </button>
                         </td>
                         </tr>
                 </tbody>
@@ -547,7 +664,6 @@ export default {
                         <span>Block</span><br/>
                         <input id="block" type="text" placeholder="Example: 212 OLD HUDSON RD" v-model="new_incident.block" required/>
                         <br/>
-
                         <button id="lookup" class="cell small-3 button" type="button" @click="newIncident">Submit</button>
                     </form>
                 </div>
