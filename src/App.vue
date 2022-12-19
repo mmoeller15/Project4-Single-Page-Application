@@ -119,85 +119,36 @@ export default {
         newIncident(event){
             console.log(event);
             
-            if (this.new_incident.case_number === ''){
-                $('#case_number').css('border-color', 'FF0000');
-                this.errors.push('Required');
-            } /*else if (this.new_incident.case_number === stat 500){
-
-            }*/else{
-                //do nothing
-            }
-
-            if (this.new_incident.date === ''){//or null
-                $('#date').css('border-color', 'FF0000');
-                this.errors.push('Required');
-            } else{
-                //do nothing
-            }
-
-            if (this.new_incident.time === ''){//or null
-                $('#time').css('border-color', 'FF0000');
-                this.errors.push('Required');
-            } else{
-                //do nothing?
-            }
-
-            if (this.new_incident.code === ''){
-                $('#code').css('border-color', 'FF0000');
-                this.errors.push('Required');
-            } else {
-                //do nothing?
-            }
-
-            if (this.new_incident.incident === ''){
-                $('#incident').css('border-color', 'FF0000');
-                this.errors.push('Required');
-            } else {
-                //do nothing?
-            }
-
-            if (this.new_incident.police_grid === ''){
-                $('#police_grid').css('border-color', 'FF0000');
-                this.errors.push('Required');
-            } else {
-                //do nothing?
-            }
-
-            if (this.new_incident.neighborhood_number === ''){
-                $('#neighborhood_number').css('border-color', 'FF0000');
-                this.errors.push('Required');
-            } else {
-                //do nothing?
-            }
-
-            if (this.new_incident.block === ''){
-                $('#block').css('border-color', 'FF0000');
-                this.errors.push('Required');
-            } else {
-                //do nothing?
-            }
-            
             let url = "http://localhost:8005/new-incident";
             let i;
             let j;
+            let counter = 0;
             for (i in this.new_incident){
                 for (j in this.new_incident[i]){
-                    console.log(this.new_incident[i][j]);
+                    //console.log(this.new_incident[i][j]);
+                    if (this.new_incident[i][j] != null){
+                        counter++;
+                    }
                 }
             }
-            this.uploadJSON('PUT', url, this.new_incident).then((data) => {
-                console.log(data);
-                alert("Incident added.");
-                this.reset();
-            }).catch((error) => {
-                console.log(error);
-                if (error.status === 500){
-                    alert("This incident already exists. Please try again");
-                }
-                else {
-                    alert("404: Could not be added");
-                }
-            })
+            console.log(counter);
+            if (counter === 8){
+                    this.uploadJSON('PUT', url, this.new_incident).then((data) => {
+                    console.log(data);
+                    alert("Incident added.");
+                    this.reset();
+                }).catch((error) => {
+                    console.log(error);
+                    if (error.status === 500){
+                        alert("This incident already exists. Please try again");
+                    }
+                    else {
+                        alert("404: Could not be added");
+                    }
+                })
+            } else {
+                alert("Please fill in all values.");
+            }
         },
 
         reset() {
