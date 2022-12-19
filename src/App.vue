@@ -407,9 +407,15 @@ export default {
                     <!-- KEY for colors -->
                     <legend> Colors </legend>
                     <center>
-                        <label for="violent" >Violent Crimes:</label>
-                        <label for="property">Property Crimes:</label>
-                        <label for="other">Other Crimes:</label>
+                        <label for="violent" >Violent Crimes:
+                        <span style="width: 15px; height: 15px; margin:auto; display: inline-block; border: 1px solid gray; vertical-align: middle; border-radius: 2px; background: rgb(255, 204, 204) "></span>
+                        </label>
+                        <label for="property">Property Crimes:
+                        <span style="width: 15px; height: 15px; margin:auto; display: inline-block; border: 1px solid gray; vertical-align: middle; border-radius: 2px; background: rgb(188, 245, 189) "></span>
+                        </label>
+                        <label for="other">Other Crimes:
+                        <span style="width: 15px; height: 15px; margin:auto; display: inline-block; border: 1px solid gray; vertical-align: middle; border-radius: 2px; background: rgb(181, 221, 249) "></span>
+                        </label>
                     </center>
                 </div>
                 <table>
@@ -427,28 +433,6 @@ export default {
                         <th>Delete?</th>
                     </tr>
                 </thead>
-                <!--
-                    Crimes:
-                        Violent = 
-                        Property = Vandalism, Theft, Auto Theft, 
-                        Other = Narcotics, Proactive Police Visit, 
-                        Total = 23 values
-
-                        {'violent': 
-                        itemIncidents.incident === 'Theft'||
-                        itemIncidents.incident === 'Burglary' ||
-                        itemIncidents.incident === 'Auto Theft',
-                        'property': itemIncidents.incident == 'Agg. Assault'
-                        //'other': itemIncidents.incident == ''
-                        
-                        }
-
-                        {'violent': 
-                        itemIncidents.code < 300,
-                        'property': itemIncidents.code > 299 && itemIncidents.code < 500
-                        //'other': itemIncidents.incident == ''
-                        }
-                -->
                 <tbody>
                     <tr v-for="(itemIncidents, index) in incidents" :class="
                         {'violent': 
@@ -457,18 +441,28 @@ export default {
                         itemIncidents.incident === 'Agg. Assault Dom.' ||
                         itemIncidents.incident === 'Criminal Discharge' ||
                         itemIncidents.incident === 'Discharge' ||
+                        getIncidentType(itemIncidents.code).includes('Weapons') ||
                         itemIncidents.incident === 'Homicide' ||
                         itemIncidents.incident === 'Rape' ||
                         itemIncidents.incident === 'Simple Assault Dom' ||
-                        itemIncidents.incident === 'Simple Assault Dom.',
+                        itemIncidents.incident === 'Simple Asasult Dom.' ||
+                        itemIncidents.incident === 'Simple Assault Dom.' ||
+                        getIncidentType(itemIncidents.code).includes('Assault') ||
+                        getIncidentType(itemIncidents.code).includes('Murder')||
+                        getIncidentType(itemIncidents.code).includes('Rape'),
 
                         'property': 
                         itemIncidents.incident === 'Arson' ||
                         itemIncidents.incident === 'Auto Theft' ||
+                        getIncidentType(itemIncidents.code).includes('Motor') ||
                         itemIncidents.incident === 'Burglary' ||
+                        getIncidentType(itemIncidents.code).includes('Burglary')||
                         itemIncidents.incident === 'Criminal Damage' ||
+                        getIncidentType(itemIncidents.code).includes('Criminal Damage')||
+                        getIncidentType(itemIncidents.code).includes('Graffiti')||
                         itemIncidents.incident === 'Graffiti' ||
                         itemIncidents.incident === 'Robbery' ||
+                        getIncidentType(itemIncidents.code).includes('Robbery') ||
                         itemIncidents.incident === 'Theft' ||
                         itemIncidents.incident === 'Vandalism',
 
@@ -476,6 +470,7 @@ export default {
                         itemIncidents.incident === 'Community Engagement Event' ||
                         itemIncidents.incident === 'Community Event' ||
                         itemIncidents.incident === 'Narcotics' ||
+                        getIncidentType(itemIncidents.code).includes('Narcotics') ||
                         itemIncidents.incident === 'Others' ||
                         itemIncidents.incident === 'Proactive Foot Patrol' ||
                         itemIncidents.incident === 'Proactive Police Visit' 
@@ -679,7 +674,7 @@ ul {
 }
 
 .violent{
-    background-color: rgb(181, 221, 249);
+    background-color: rgb(255, 204, 204);
 }
 
 .property {
@@ -687,7 +682,7 @@ ul {
 }
 
 .other {
-    background-color: rgb(255, 204, 204);
+    background-color: rgb(181, 221, 249);
 }
 
 </style>
