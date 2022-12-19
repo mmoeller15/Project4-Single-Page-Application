@@ -13,10 +13,10 @@ export default {
                 case_number: null,
                 date: null,
                 time: null,
-                code: "",
+                code: null,
                 incident: null,
                 police_grid: null,
-                neighborhood_number: "",
+                neighborhood_number: null,
                 block: null
             },
             filter: {
@@ -108,9 +108,11 @@ export default {
 
         getIncidentType(code) {
             let i = 0;
+            //console.log(code);
              while (code != this.codes[i].code) {
                 i++;
             }
+            //console.log(this.codes[i].type);
             return this.codes[i].type;
         },
 
@@ -176,6 +178,13 @@ export default {
             }
             
             let url = "http://localhost:8005/new-incident";
+            let i;
+            let j;
+            for (i in this.new_incident){
+                for (j in this.new_incident[i]){
+                    console.log(this.new_incident[i][j]);
+                }
+            }
             this.uploadJSON('PUT', url, this.new_incident).then((data) => {
                 console.log(data);
                 alert("Incident added.");
@@ -267,14 +276,24 @@ export default {
             })
         },
 
-        crimeFinder(i){
-            let crime = this.incidents[i].incident;
-            console.log(crime);
+        crimeFinder(incident){
+            //console.log(incident);
+            if (incident.toLowerCase() === 'theft' || 'burglary'){
+                this.class = "violent";
+                //console.log(this.class);
+                return this.class;
+
+            } else if (incident.toLowerCase() === 'agg. assault') {
+                this.class = "property";
+                //console.log(this.class);
+                return this.class;
+
+            }
         }
     },
     mounted() {
 
-        this.leaflet.map = L.map('leafletmap', {zoomAnimation: false}).setView([this.leaflet.center.lat, this.leaflet.center.lng], this.leaflet.zoom);
+        this.leaflet.map = L.map('leafletmap').setView([this.leaflet.center.lat, this.leaflet.center.lng], this.leaflet.zoom);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
             minZoom: 11,
@@ -400,17 +419,47 @@ export default {
             <th>Delete?</th>
         </tr>
         </thead>
+        <!--
+            Crimes:
+                Violent = 
+                Property = Vandalism, Theft, Auto Theft, 
+                Other = Narcotics, Proactive Police Visit, 
+                Total = 23 values
+
+                {'violent': 
+                 itemIncidents.incident === 'Theft'||
+                 itemIncidents.incident === 'Burglary' ||
+                 itemIncidents.incident === 'Auto Theft',
+                 'property': itemIncidents.incident == 'Agg. Assault'
+                 //'other': itemIncidents.incident == ''
+                 
+                }
+
+                {'violent': 
+                 itemIncidents.code < 300,
+                 'property': itemIncidents.code > 299 && itemIncidents.code < 500
+                 //'other': itemIncidents.incident == ''
+                }
+        -->
         <tbody>
-            <tr v-for="(itemIncidents, index) in incidents" :class="(crimeFinder(index)) ? 'violent' : 'property'">
-                <!-- (index % 2 === 0) ? 'even' : 'odd' -->
+            <tr v-for="(itemIncidents, index) in incidents" :class="
+                {'violent': 
+                 itemIncidents.incident === 'Theft'||
+                 itemIncidents.incident === 'Burglary' ||
+                 itemIncidents.incident === 'Auto Theft',
+                 'property': itemIncidents.incident == 'Agg. Assault'
+                 //'other': itemIncidents.incident == '' .name
+                 
+                }
+                ">
                 <td>{{ index + 1 }}</td>
                 <td>{{ itemIncidents.case_number }}</td>
                 <td>{{ itemIncidents.date }}</td>
                 <td>{{ itemIncidents.time }}</td>
-                <td>{{ itemIncidents.incident }}</td>
+                <td >{{ itemIncidents.incident }}</td>
                 <td>{{ getIncidentType(itemIncidents.code) }}</td>
                 <td>{{ itemIncidents.police_grid }}</td>
-                <td>{{ neighborhoods[itemIncidents.neighborhood_number - 1].name }}</td>
+                <td>{{ neighborhoods[itemIncidents.neighborhood_number - 1] }}</td>
                 <td>{{ itemIncidents.block }}</td>
                 <td>
                     <button id="lookup" class="cell small-3 button" type="button" @click="removeIncident(index)"> Delete </button>
@@ -641,16 +690,6 @@ export default {
 
     
 }
-.even {
-    width: 40rem;
-    margin: 0;
-    background-color: rgb(162, 206, 235);
-}
-.odd {
-    width: 40rem;
-    margin: 0;
-    background-color: rgb(241, 241, 241);
-}
 
 th, td {
     border: solid, 1px, black;
@@ -660,5 +699,16 @@ ul {
     list-style: none;
 }
 
+.violent{
+    background-color: rgb(162, 206, 235);
+}
+
+.property {
+    background-color: rgb(142, 204, 143);
+}
+
+.other {
+    background-color: rgb(227, 145, 145);
+}
 
 </style>
