@@ -178,6 +178,7 @@ export default {
                         url = url + "," + i;
                     }
                     incidentCount++;
+                    count++;
                 }
                 
                 
@@ -216,6 +217,7 @@ export default {
                     }
                     
                     neighborhoodCount++;
+                    count++;
                 }
 
             }
@@ -225,6 +227,7 @@ export default {
                     url = url + "&";
                 }
                 url = url + "limit=" + filterData.limit;
+                count++;
             }
 
             console.log(url);
