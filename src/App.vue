@@ -130,45 +130,79 @@ export default {
             //console.log("Before check: " + this.new_incident.case_number);
             //2022-06-03
             if (this.new_incident.case_number != null){
+                $('#case_number').css('border-color', 'green');
                 //console.log("Before check: " + this.new_incident.case_number);
                 counter = counter + 1;
                 //console.log("Added for case number");
+            } else{
+                $("#case_number").css('border-color', 'red');
             }
+
             if (this.new_incident.date != null){
+                $('#date').css('border-color', 'green');
                 //console.log("Before check: " + this.new_incident.date);
                 counter = counter + 1;
                 //console.log("Added for date");
+            } else{
+                $('#date').css('border-color', 'red');
             }
+
             if (this.new_incident.time != null){
+                $('#time').css('border-color', 'green');
                 //console.log("Before check: " + this.new_incident.time);
                 counter = counter + 1;
                 //console.log("Added for time");
+            } else{
+                $('#time').css('border-color', 'red');
             }
+
             if (this.new_incident.code != null){
+                $('#code').css('border-color', 'green');
                 //console.log("Before check: " + this.new_incident.code);
                 counter = counter + 1;
                 //console.log("Added for code");
+            } else{
+                $('#code').css('border-color', 'red');
             }
+
             if (this.new_incident.incident != null){
+                $('#incident').css('border-color', 'green');
                 //console.log("Before check: " + this.new_incident.incident);
                 counter = counter + 1;
                 //console.log("Added for incident");
+            } else{
+                $('#incident').css('border-color', 'red');
             }
+
             if (this.new_incident.police_grid != null){
+                $('#police_grid').css('border-color', 'green');
                 //console.log("Before check: " + this.new_incident.police_grid);
                 counter = counter + 1;
                 //console.log("Added for grid");
+            } else{
+                $('#police_grid').css('border-color', 'red');
             }
+
             if (this.new_incident.neighborhood_number != null){
                 //console.log("Before check: " + this.new_incident.neighborhood_number);
                 counter = counter + 1;
+                $("#neighborhood_number").css('border-color', 'green');
                 //console.log("Added for neighborhood");
+            } else{
+                $("#neighborhood_number").css('border-color', 'red');
+            
             }
+
             if (this.new_incident.block != null){
+                $('#block').css('border-color', 'green');
                 //console.log("Before check: " + this.new_incident.block);
                 counter = counter + 1;
                 //console.log("Added for block");
+            } else{
+                $('#block').css('border-color', 'red');
             }
+            
+            
             console.log(counter);
             if (counter === 8){
                     this.uploadJSON('PUT', url, this.new_incident).then((data) => {
