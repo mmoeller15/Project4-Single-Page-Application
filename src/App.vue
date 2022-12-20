@@ -212,6 +212,7 @@ export default {
                 }).catch((error) => {
                     console.log(error);
                     if (error.status === 500){
+                        $("#case_number").css('border-color', 'red');
                         alert("This incident already exists. Please try again");
                     }
                     else {
