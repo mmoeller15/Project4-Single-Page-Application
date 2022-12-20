@@ -605,18 +605,24 @@ export default {
                     <br/>
                     <button id="center" class="cell small-3 button" type="button" @click="center()"> Center Map </button>
                 </div>
-                <div class="cell small-12 medium-12 large-12">
-                    <!-- KEY for colors -->
-                    <legend> Colors </legend>
-                        <label for="violent" >Violent Crimes:
+                <div class="cell small-12 medium-6 large-4"></div>
+                <div class="cell small-12 medium-6 large-4">
+                    <legend class="center"> Colors </legend>
+                        <center>
+                        <label for="violent" class="center">Violent Crimes:
                         <span style="width: 15px; height: 15px; margin:auto; display: inline-block; border: 1px solid gray; vertical-align: middle; border-radius: 2px; background: rgb(255, 204, 204) "></span>
                         </label>
-                        <label for="property">Property Crimes:
+                        <label for="property" class="center">Property Crimes:
                         <span style="width: 15px; height: 15px; margin:auto; display: inline-block; border: 1px solid gray; vertical-align: middle; border-radius: 2px; background: rgb(188, 245, 189) "></span>
                         </label>
                         <label for="other">Other Crimes:
                         <span style="width: 15px; height: 15px; margin:auto; display: inline-block; border: 1px solid gray; vertical-align: middle; border-radius: 2px; background: rgb(181, 221, 249) "></span>
                         </label>
+                        </center>
+                </div>
+                <div class="cell small-12 medium-6 large-4"></div>
+                <div class="cell small-12 medium-12 large-12">
+                    <!-- KEY for colors -->
                     <form>
                         <p>Enter in location</p>
                         <input type="text" id="go" placeholder="Example: University of St. Thomas" v-model="searchbar.address"><br/>
