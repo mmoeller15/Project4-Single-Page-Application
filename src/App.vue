@@ -436,7 +436,12 @@ export default {
             
         },
 
-
+        center() {
+            document.querySelector("#center")
+            .addEventListener("click", e => {
+                this.leaflet.map.flyTo([44.955139, -93.102222], 12);
+            });
+        }
     },
     mounted() {
 
@@ -596,6 +601,10 @@ export default {
                     </form>
                 </div>
                 <div id="leafletmap" class="cell auto"></div>
+                <div class="cell small-12 medium-12 large-12">
+                    <br/>
+                    <button id="center" class="cell small-3 button" type="button" @click="center()"> Center Map </button>
+                </div>
                 <div class="cell small-12 medium-12 large-12">
                     <!-- KEY for colors -->
                     <legend> Colors </legend>
