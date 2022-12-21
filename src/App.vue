@@ -787,7 +787,7 @@ export default {
                 <div class="cell small-12 medium-12 large-2"></div>
                 <!-- add image -->
                 <div class="cell small-12 medium-12 large-4">
-                    <img src="images/alina_prof_pic.png" alt="Alina Photo"/>
+                    <img src="images/alina_prof_pic.jpg" alt="Alina Photo"/>
                 </div>
                 
                 
