@@ -787,7 +787,7 @@ export default {
                 <div class="cell small-12 medium-12 large-2"></div>
                 <!-- add image -->
                 <div class="cell small-12 medium-12 large-4">
-                    <img src="../images/alina_prof_pic.jpg" alt="Alina Photo"/>
+                    <img src="/images/alina_prof_pic.jpg" alt="Alina Photo"/>
                 </div>
                 
                 
@@ -803,7 +803,7 @@ export default {
                 </div>
                 <!-- add image -->
                 <div class="cell small-12 medium-12 large-4">
-                    <img src="../images/ivan_prof_pic.jpeg" alt="Ivan Photo"/>
+                    <img src="/images/ivan_prof_pic.jpeg" alt="Ivan Photo"/>
                 </div>
 
                 <div class="cell small-12 medium-12 large-8">
@@ -817,7 +817,7 @@ export default {
                 </div>
                 <!-- add image -->
                 <div class="cell small-12 medium-12 large-4">
-                    <img src="../images/maddie_prof_pic.jpg" alt="Maddie Photo"/>
+                    <img src="/images/maddie_prof_pic.jpg" alt="Maddie Photo"/>
                 </div>
 
                 <div class="cell small-12 large-12">
