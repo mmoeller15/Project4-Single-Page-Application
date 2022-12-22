@@ -122,7 +122,7 @@ export default {
         newIncident(event){
             console.log(event);
             
-            let url = "http://localhost:8005/new-incident";
+            let url = "http://localhost:8000/new-incident";
             let i;
             let j;
             let counter = 0;
@@ -206,7 +206,7 @@ export default {
         },
 
         reset() {
-            this.getJSON('http://localhost:8005/incidents').then((data) => {
+            this.getJSON('http://localhost:8000/incidents').then((data) => {
             this.incidents = data;
         }).catch((error) => {
             console.log('Error:', error);
@@ -214,7 +214,7 @@ export default {
         },
 
         filterIncident(filterData) {
-            let url = "http://localhost:8005/incidents?";
+            let url = "http://localhost:8000/incidents?";
             let count = 0;
             //Incident Type
             let j;
@@ -292,7 +292,7 @@ export default {
         },
 
         removeIncident(i) {
-            let url = "http://localhost:8005/remove-incident";
+            let url = "http://localhost:8000/remove-incident";
             this.uploadJSON('DELETE', url, this.incidents[i]).then((data) => {
                 console.log(data);
                 alert("Incident removed.");
@@ -485,19 +485,19 @@ export default {
         });
 
 
-        this.getJSON('http://localhost:8005/codes').then((data) => {
+        this.getJSON('http://localhost:8000/codes').then((data) => {
             this.codes = data;
         }).catch((error) => {
             console.log('Error:', error);
         })
 
-        this.getJSON('http://localhost:8005/neighborhoods').then((data) => {            
+        this.getJSON('http://localhost:8000/neighborhoods').then((data) => {            
             this.neighborhoods = data;
         }).catch((error) => {
             console.log('Error:', error);
         })
 
-        this.getJSON('http://localhost:8005/incidents').then((data) => {
+        this.getJSON('http://localhost:8000/incidents').then((data) => {
             this.incidents = data;
             //loop over incidents to count number of crimes with this.incidents.neighborhood_number, \
             //17 counters to ocunt for each neighborhood
