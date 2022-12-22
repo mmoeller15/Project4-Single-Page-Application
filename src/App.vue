@@ -310,56 +310,146 @@ export default {
                 //empty
                 alert("No search entry, please enter in a location to search");
             } else {
-                let url= "http://nominatim.openstreetmap.org/search?street="+query_address+"&city=ST.+PAUL&state=MINNESOTA&format=json";
+                let url= "";
+                if (query_address.includes("[") && query_address.includes("]")) {
+                    //alert("Lat and long");
+                    let latlng_str = query_address.replace("[", "");
+                    latlng_str = latlng_str.replace("]", "");
+                    latlng_str = latlng_str.replace(/\s/g, "");
+                    let latlng_address = latlng_str.split(",");
+                    //check if in bounding box before doing extra work
+                    //nw: {lat: 45.008206, lng: -93.217977},
+                    //se: {lat: 44.883658, lng: -92.993787}
+                    let input_lat = parseFloat(latlng_address[0]);
+                    console.log(input_lat);
+                    let input_lon = parseFloat(latlng_address[1]);
+                    console.log(input_lon);
+                    if (input_lat < 45.008206 && input_lat > 44.883658 && input_lon > -93.217977 && input_lon < -92.993787){
+                        let latlng_url = "https://nominatim.openstreetmap.org/reverse?lat=" + latlng_address[0] + "&lon="  + latlng_address[1] + "&format=json";
+                        //console.log(latlng_url);
+                        this.getJSON(latlng_url)
+                        .then((data) => {
+                            //console.log(data.display_name);
+                            //we can get proper url now, which will require another getJSON later on
+                            let street_query = data.display_name;
+                            street_query = street_query.replaceAll("," , " ");
+                            street_query = street_query.replaceAll(/\s/g, "+");
+                            street_query = street_query.replaceAll("++", "+");
+                            //console.log("street query: " + street_query);
+                            //.replace(/\s/g, "");
+                            let latlong_url = "http://nominatim.openstreetmap.org/search?q=" + street_query + "&format=json";
+                            //console.log(latlong_url);
+                            this.getJSON(latlong_url)
+                            .then((data) => {
+                                //console.log(data);                   
+                                //console.log(data[0].lat);
+                                
+                                //this.leaflet.map.panTo(this.leaflet.map, data[0].lat, data[0].lon);
+                                var greenIcon = L.icon({
+                                    iconUrl: '../images/green_marker.png',
+                                    shadowUrl: '../images/marker-shadow.png',
 
-                console.log(url);
-                
-                this.getJSON(url)
-                .then((data) => {
-                    //console.log(data);
-                    
-                    console.log(data[0].lat);
-                    
-                    //this.leaflet.map.panTo(this.leaflet.map, data[0].lat, data[0].lon);
-                    var greenIcon = L.icon({
-                        iconUrl: '../images/green_marker.png',
-                        shadowUrl: '../images/marker-shadow.png',
-
-                        iconSize:     [30, 45], // size of the icon
-                        shadowSize:   [50, 64], // size of the shadow
-                        iconAnchor:   [5, 40], // point of the icon which will correspond to marker's location
-                        shadowAnchor: [4, 62],  // the same for the shadow
-                        popupAnchor:  [10, -35] // point from which the popup should open relative to the iconAnchor
-                    });
-
-                    this.leaflet.map.flyTo([data[0].lat, data[0].lon], 18);
-                    var loc_marker = L.marker([data[0].lat, data[0].lon], {icon: greenIcon});
-                    loc_marker.addTo(this.leaflet.map);
-                    loc_marker.bindPopup("Location: " + query_address + "<br/>"+
-                    "<button id=\"marker_delete\" class=\"cell small-3 button\" type=\"button\"> Delete Marker</button>"
-                    +"<br/> <button id=\"marker_center\" class=\"cell small-3 button\" type=\"button\"> Back to Center</button>");
-                    loc_marker.on("popupopen", () => {
-                                document.querySelector("#marker_delete")
-                                .addEventListener("click", e => {
-                                    this.leaflet.map.removeLayer(loc_marker);
-                                    //center lat: 44.955139,
-                                    //center lng: -93.102222,
-                                    this.leaflet.map.flyTo([44.955139, -93.102222], 12);
+                                    iconSize:     [30, 45], // size of the icon
+                                    shadowSize:   [50, 64], // size of the shadow
+                                    iconAnchor:   [5, 40], // point of the icon which will correspond to marker's location
+                                    shadowAnchor: [4, 62],  // the same for the shadow
+                                    popupAnchor:  [10, -35] // point from which the popup should open relative to the iconAnchor
                                 });
-                                document.querySelector("#marker_center")
-                                .addEventListener("click", e => {
-                                    loc_marker.closePopup();
-                                    this.leaflet.map.flyTo([44.955139, -93.102222], 12);
-                                });
+
+                                this.leaflet.map.flyTo([data[0].lat, data[0].lon], 18);
+                                var loc_marker = L.marker([data[0].lat, data[0].lon], {icon: greenIcon});
+                                loc_marker.addTo(this.leaflet.map);
+                                loc_marker.bindPopup("Location: " + data[0].display_name + "<br/>"+
+                                "<button id=\"marker_delete\" class=\"cell small-3 button\" type=\"button\"> Delete Marker</button>"
+                                +"<br/> <button id=\"marker_center\" class=\"cell small-3 button\" type=\"button\"> Back to Center</button>");
+                                loc_marker.on("popupopen", () => {
+                                            document.querySelector("#marker_delete")
+                                            .addEventListener("click", e => {
+                                                this.leaflet.map.removeLayer(loc_marker);
+                                                //center lat: 44.955139,
+                                                //center lng: -93.102222,
+                                                this.leaflet.map.flyTo([44.955139, -93.102222], 12);
+                                            });
+                                            document.querySelector("#marker_center")
+                                            .addEventListener("click", e => {
+                                                loc_marker.closePopup();
+                                                this.leaflet.map.flyTo([44.955139, -93.102222], 12);
+                                            });
+                                        })
+                                //loc_marker._icon.classList.add("huechange");
+                                loc_marker.valueOf()._icon.style.color = 'green'
+                                let searchbar_ex = "Location: [" + data[0].lat + ", " + data[0].lon + "]";
+                                document.getElementsByName('Search')[0].value=searchbar_ex;
+                            }).catch((err) => {
+                                console.log(err);
+                                alert("Location not in St. Paul, Minnesota, please try again.");
                             })
-                    //loc_marker._icon.classList.add("huechange");
-                    loc_marker.valueOf()._icon.style.color = 'green'
-                }).catch((err) => {
-                    console.log(err);
-                    alert("Location not in St. Paul, Minnesota, please try again.");
-                })
+                        });
+                    } else {
+                        alert("Outside of St. Paul's bounds. Please try again.");
+                    }
+                } else {
+                    url= "http://nominatim.openstreetmap.org/search?street="+query_address+"&city=ST.+PAUL&state=MINNESOTA&format=json";
+                    //location typed out
+                    console.log(url);
+                    
+                    this.getJSON(url)
+                    .then((data) => {
+                        //console.log(data);
+                        
+                        console.log(data[0].lat);
+                        
+                        //this.leaflet.map.panTo(this.leaflet.map, data[0].lat, data[0].lon);
+                        var greenIcon = L.icon({
+                            iconUrl: '../images/green_marker.png',
+                            shadowUrl: '../images/marker-shadow.png',
+
+                            iconSize:     [30, 45], // size of the icon
+                            shadowSize:   [50, 64], // size of the shadow
+                            iconAnchor:   [5, 40], // point of the icon which will correspond to marker's location
+                            shadowAnchor: [4, 62],  // the same for the shadow
+                            popupAnchor:  [10, -35] // point from which the popup should open relative to the iconAnchor
+                        });
+
+                        this.leaflet.map.flyTo([data[0].lat, data[0].lon], 18);
+                        var loc_marker = L.marker([data[0].lat, data[0].lon], {icon: greenIcon});
+                        loc_marker.addTo(this.leaflet.map);
+                        loc_marker.bindPopup("Location: " + data[0].display_name + "<br/>"+
+                        "<button id=\"marker_delete\" class=\"cell small-3 button\" type=\"button\"> Delete Marker</button>"
+                        +"<br/> <button id=\"marker_center\" class=\"cell small-3 button\" type=\"button\"> Back to Center</button>");
+                        loc_marker.on("popupopen", () => {
+                                    document.querySelector("#marker_delete")
+                                    .addEventListener("click", e => {
+                                        this.leaflet.map.removeLayer(loc_marker);
+                                        //center lat: 44.955139,
+                                        //center lng: -93.102222,
+                                        this.leaflet.map.flyTo([44.955139, -93.102222], 12);
+                                    });
+                                    document.querySelector("#marker_center")
+                                    .addEventListener("click", e => {
+                                        loc_marker.closePopup();
+                                        this.leaflet.map.flyTo([44.955139, -93.102222], 12);
+                                    });
+                                })
+                        //loc_marker._icon.classList.add("huechange");
+                        loc_marker.valueOf()._icon.style.color = 'green'
+                        let searchbar_ex = "[" + data[0].lat + ", " + data[0].lon + "]";
+                        document.getElementsByName('Search')[0].value=searchbar_ex;
+                    }).catch((err) => {
+                        console.log(err);
+                        alert("Location not in St. Paul, Minnesota, please try again.");
+                    })
+                }
             }
         }, 
+
+        goLocationLatLon(address){
+            
+        },
+
+        clearSearch(){
+            document.getElementsByName('Search')[0].value="";
+        },
 
         createMarker(block, index){
             let address = block.split(" ");
@@ -463,6 +553,18 @@ export default {
         
         console.log(this.leaflet.bounds.nw.lat);
         console.log(this.leaflet.bounds.nw.lng); */
+
+        this.leaflet.map.on('zoom', function(ev) {
+            var ps = document.getElementById("Center");
+            //console.log(ps);
+            ps.innerHTML = "Current Location: [" + ev.target.getCenter().lat + ", " + ev.target.getCenter().lng + "]";
+        });
+
+        this.leaflet.map.on('move', function(ev) {
+            var ps = document.getElementById("Center");
+            //console.log(ps);
+            ps.innerHTML = "Current Location: [" + ev.target.getCenter().lat + ", " + ev.target.getCenter().lng + "]";
+        });
 
         for(var i = 0; i < this.leaflet.neighborhood_markers.length; i++) {
             this.leaflet.neighborhood_markers[i].marker = L.marker([this.leaflet.neighborhood_markers[i].location[0], this.leaflet.neighborhood_markers[i].location[1]])
@@ -602,6 +704,7 @@ export default {
                 </div>
                 <div id="leafletmap" class="cell auto"></div>
                 <div class="cell small-12 medium-12 large-12">
+                    <p id="Center">Current Location: </p>
                     <br/>
                     <button id="center" class="cell small-3 button" type="button" @click="center()"> Center Map </button>
                 </div>
@@ -624,9 +727,11 @@ export default {
                 <div class="cell small-12 medium-12 large-12">
                     <!-- KEY for colors -->
                     <form>
-                        <p>Enter in location</p>
-                        <input type="text" id="go" placeholder="Example: University of St. Thomas" v-model="searchbar.address"><br/>
+                        <p>Enter in location:</p>
+                        <p style="font-size:small">(For location, use brackets "[lat, lon]")</p>
+                        <input type="text" id="go" placeholder="Example: University of St. Thomas" name = "Search" v-model="searchbar.address"><br/>
                         <button id="go" class="cell small-1 button" type="button" @click="goLocation(searchbar.address)">Go</button>
+                        <button id="go" class="cell small-1 button" type="button" @click="clearSearch()">Clear Search</button>
                     </form>
                 </div>
                 <table class="center">
