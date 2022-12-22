@@ -554,16 +554,12 @@ export default {
         console.log(this.leaflet.bounds.nw.lat);
         console.log(this.leaflet.bounds.nw.lng); */
 
-        this.leaflet.map.on('zoom', function(ev) {
-            var ps = document.getElementById("Center");
-            //console.log(ps);
-            ps.innerHTML = "Current Location: [" + ev.target.getCenter().lat + ", " + ev.target.getCenter().lng + "]";
-        });
-
         this.leaflet.map.on('move', function(ev) {
+            //both zoom and pan
             var ps = document.getElementById("Center");
             //console.log(ps);
             ps.innerHTML = "Current Location: [" + ev.target.getCenter().lat + ", " + ev.target.getCenter().lng + "]";
+            console.log(ev.target.getBounds());
         });
 
         for(var i = 0; i < this.leaflet.neighborhood_markers.length; i++) {
