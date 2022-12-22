@@ -305,11 +305,17 @@ export default {
 
         goLocation(query_address){
             console.log(query_address);
+            (console.log(document.getElementsByName('Search')[0].value));
             //alert("This does not work, bold to you assume im that smart >:(");
-            if (query_address == null){
+            if (query_address == null && document.getElementsByName('Search')[0].value == null){
                 //empty
                 alert("No search entry, please enter in a location to search");
             } else {
+                if (query_address == null){
+                    query_address =  document.getElementsByName('Search')[0].value;
+                } else {
+                    query_address = query_address;
+                }
                 let url= "";
                 if (query_address.includes("[") && query_address.includes("]")) {
                     //alert("Lat and long");
@@ -378,7 +384,7 @@ export default {
                                         })
                                 //loc_marker._icon.classList.add("huechange");
                                 loc_marker.valueOf()._icon.style.color = 'green'
-                                let searchbar_ex = "Location: [" + data[0].lat + ", " + data[0].lon + "]";
+                                let searchbar_ex = "[" + data[0].lat + ", " + data[0].lon + "]";
                                 document.getElementsByName('Search')[0].value=searchbar_ex;
                             }).catch((err) => {
                                 console.log(err);
@@ -388,6 +394,7 @@ export default {
                     } else {
                         alert("Outside of St. Paul's bounds. Please try again.");
                     }
+                
                 } else {
                     url= "http://nominatim.openstreetmap.org/search?street="+query_address+"&city=ST.+PAUL&state=MINNESOTA&format=json";
                     //location typed out
@@ -442,10 +449,6 @@ export default {
                 }
             }
         }, 
-
-        goLocationLatLon(address){
-            
-        },
 
         clearSearch(){
             document.getElementsByName('Search')[0].value="";
@@ -559,6 +562,8 @@ export default {
             var ps = document.getElementById("Center");
             //console.log(ps);
             ps.innerHTML = "Current Location: [" + ev.target.getCenter().lat + ", " + ev.target.getCenter().lng + "]";
+            var input = document.getElementById("go");
+            input.value =("[" + ev.target.getCenter().lat + ", " + ev.target.getCenter().lng + "]");
             console.log(ev.target.getBounds());
         });
 
